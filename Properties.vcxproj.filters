@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{83f38980-97dc-4258-8c73-1d4b8beb276a}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Com-Implementation">
+      <UniqueIdentifier>{33b8d15f-0790-42dd-b5bc-f5a39be59d9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Com-Implementation\I-Persist">
+      <UniqueIdentifier>{9da20dd4-b621-48c4-b39a-a043db1aea5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Com-Implementation\Connection Points">
+      <UniqueIdentifier>{830c5034-7781-433e-a16e-47aba3490e8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Property Files">
+      <UniqueIdentifier>{84fa4bf9-4f4c-4746-8a3f-55c4d21467d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Property Files\Property COM files">
+      <UniqueIdentifier>{eb3bf266-58cc-4b9b-abe7-59b7692dcba2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Properties Files">
+      <UniqueIdentifier>{9a0e3a5b-6019-46e2-b372-0c82916e15dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Properties Files\Properties COM Files">
+      <UniqueIdentifier>{068e5435-af8e-47af-ad6a-3b958dbce9fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\General Files">
+      <UniqueIdentifier>{95a1ee51-6256-4ca3-99c0-98b78d0d1bfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{79365469-6632-48c3-8453-2ed1504034c3}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{1866d799-035d-41c5-9eb4-4bbf3feadfc3}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ObjectFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\source\registryUtils.cpp">
+      <Filter>Source Files\General Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\source\Utils.cpp">
+      <Filter>Source Files\General Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\source\VariantUtils.cpp">
+      <Filter>Source Files\General Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Com-Implementation\Connection Points\IConnectionPoint.cpp">
+      <Filter>Source Files\Com-Implementation\Connection Points</Filter>
+    </ClCompile>
+    <ClCompile Include="Com-Implementation\Connection Points\IConnectionPointContainer.cpp">
+      <Filter>Source Files\Com-Implementation\Connection Points</Filter>
+    </ClCompile>
+    <ClCompile Include="Com-Implementation\Connection Points\IEnumConnectionPoints.cpp">
+      <Filter>Source Files\Com-Implementation\Connection Points</Filter>
+    </ClCompile>
+    <ClCompile Include="Com-Implementation\Connection Points\IEnumConnections.cpp">
+      <Filter>Source Files\Com-Implementation\Connection Points</Filter>
+    </ClCompile>
+    <ClCompile Include="Com-Implementation\I-Persist\IPersistPropertyBag.cpp">
+      <Filter>Source Files\Com-Implementation\I-Persist</Filter>
+    </ClCompile>
+    <ClCompile Include="Com-Implementation\I-Persist\IPersistPropertyBag2.cpp">
+      <Filter>Source Files\Com-Implementation\I-Persist</Filter>
+    </ClCompile>
+    <ClCompile Include="Com-Implementation\I-Persist\IPersistStorage.cpp">
+      <Filter>Source Files\Com-Implementation\I-Persist</Filter>
+    </ClCompile>
+    <ClCompile Include="Com-Implementation\I-Persist\IPersistStream.cpp">
+      <Filter>Source Files\Com-Implementation\I-Persist</Filter>
+    </ClCompile>
+    <ClCompile Include="Com-Implementation\I-Persist\IPersistStreamInit.cpp">
+      <Filter>Source Files\Com-Implementation\I-Persist</Filter>
+    </ClCompile>
+    <ClCompile Include="Com-Implementation\DllMain.cpp">
+      <Filter>Source Files\Com-Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="Com-Implementation\IUnknown.cpp">
+      <Filter>Source Files\Com-Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="Com-Implementation\NonDelegatingIUnknown.cpp">
+      <Filter>Source Files\Com-Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="Properties Files\Properties COM Files\IProperties.cpp">
+      <Filter>Source Files\Properties Files\Properties COM Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Properties Files\Properties COM Files\IProperties_Files.cpp">
+      <Filter>Source Files\Properties Files\Properties COM Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Properties Files\Properties COM Files\IProperties_propertyPages.cpp">
+      <Filter>Source Files\Properties Files\Properties COM Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Properties Files\Properties.cpp">
+      <Filter>Source Files\Properties Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Properties Files\PropertySheet.cpp">
+      <Filter>Source Files\Properties Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Property Files\Property COM files\IProperty.cpp">
+      <Filter>Source Files\Property Files\Property COM files</Filter>
+    </ClCompile>
+    <ClCompile Include="Property Files\Property COM files\IProperty_arrays.cpp">
+      <Filter>Source Files\Property Files\Property COM files</Filter>
+    </ClCompile>
+    <ClCompile Include="Property Files\Property COM files\IProperty_value.cpp">
+      <Filter>Source Files\Property Files\Property COM files</Filter>
+    </ClCompile>
+    <ClCompile Include="Property Files\Property COM files\IProperty_variantValue.cpp">
+      <Filter>Source Files\Property Files\Property COM files</Filter>
+    </ClCompile>
+    <ClCompile Include="Property Files\Property COM files\IProperty_windows.cpp">
+      <Filter>Source Files\Property Files\Property COM files</Filter>
+    </ClCompile>
+    <ClCompile Include="Property Files\Property.cpp">
+      <Filter>Source Files\Property Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Property Files\Property_Controls.cpp">
+      <Filter>Source Files\Property Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Property Files\Property_Variants.cpp">
+      <Filter>Source Files\Property Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ObjectFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Properties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Property.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Properties.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="General Files\Properties.def">
+      <Filter>Source Files\General Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="Com-Implementation\Properties.odl">
+      <Filter>Source Files\Com-Implementation</Filter>
+    </Midl>
+  </ItemGroup>
+</Project>

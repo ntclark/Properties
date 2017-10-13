@@ -1,0 +1,690 @@
+
+import "ocidl.idl";
+
+#include <olectl.h>
+
+[ uuid(9CAEFD89-55E6-11d3-8365-006008BD5BC3),
+  helpfile(""),
+  helpstring("InnoVisioNate Properties Component"), 
+  lcid(0x0), 
+  version(1.0)
+
+] library InnoVisioNateProperties { 
+
+   importlib(STDOLE_TLB); 
+   importlib(STDTYPE_TLB);
+
+   interface IGPropertyClient;
+   interface IGPropertiesClient;
+   interface IGPropertyPageClient;
+
+   enum PropertyType {
+           TYPE_LONG,
+           TYPE_DOUBLE,
+           TYPE_SZSTRING,
+           TYPE_STRING,
+           TYPE_BINARY,
+           TYPE_RAW_BINARY,
+           TYPE_BOOL,
+           TYPE_VARIANT,
+           TYPE_ARRAY,
+           TYPE_OBJECT_STORAGE_ARRAY,
+           TYPE_UNSPECIFIED = 99};
+ 
+   enum PropertySize {
+           SIZE_UNSPECIFIED = 0,
+           SIZE_LONG = sizeof(long),
+           SIZE_DOUBLE = sizeof(double),
+           SIZE_BOOL = sizeof(short),
+           MAX_PROPERTY_SIZE = 512 };
+ 
+   enum PersistenceMechanism {
+           MECHANISM_STORAGE = 1,
+           MECHANISM_STREAM = 2,
+           MECHANISM_STREAMINIT = 3,
+           MECHANISM_PROPERTYBAG = 4,
+           MECHANISM_PROPERTYBAG2 = 5,
+           MECHANISM_INIFILE = 6,
+           MECHANISM_DEFAULT = MECHANISM_STORAGE };
+
+   enum ArrayIndex {
+           ARRAY_INDEX_REMOVE = -4,
+           ARRAY_INDEX_ADD = -3,
+           ARRAY_INDEX_FIRST = -2,
+           ARRAY_INDEX_LAST = -1 };
+
+   [ uuid(9CAEFD8D-55E6-11d3-8365-006008BD5BC3),
+      helpstring("InnoVisioNate Property Automation Interface"),
+      nonextensible,pointer_default(unique)] 
+
+   interface IGProperty : IDispatch {
+
+      // Miscellanous attributes
+
+      [ id(0),propput,helpstring("Sets the VARIANT value of the property")]
+      HRESULT value([in] VARIANT newValue);
+      [id(0),propget,helpstring("Retrieves the VARIANT value of the property")]
+      HRESULT value([out,retval] VARIANT* theValue);
+
+      [ id(2),propput,helpstring("Sets the name of the property")]
+      HRESULT name([in]BSTR bstrName);
+      [ id(2),propget,helpstring("Retrieves the name of the property")]
+      HRESULT name([out,retval]BSTR *bstrName);
+
+      [ id(3),propput,helpstring("Sets the type of the property")]
+      HRESULT type([in]enum PropertyType type);
+      [ id(3),propget,helpstring("Retrieves the type of the property")]
+      HRESULT type([out,retval]enum PropertyType* pType);
+
+      [ id(4),propput,helpstring("Sets the size of the property")]
+      HRESULT size([in]long size);
+      [ id(4),propget,helpstring("Retrieves the size of the property")]
+      HRESULT size([out,retval]long* size);
+
+      [ id(13),propput,helpstring("Sets the dirty state")]
+      HRESULT isDirty([in] short setDirtyState);
+      [ id(13),propget,helpstring("Gets the dirty state") ]
+      HRESULT isDirty([out,retval] short* getDirtyState);
+
+      [ id(14),propget,helpstring("Has the property been assigned a value?") ]
+      HRESULT everAssigned([out,retval] short* getEverAssigned);
+
+      [ id(15),propput, helpstring("Prevent/Don't prevent the call to the Client IGPropertyClient interface when the property changes") ]
+      HRESULT ignoreSetAction([in] VARIANT_BOOL ignoreSetAction);
+      [ id(15),propget, helpstring("Prevent/Don't prevent the call to the Client IGPropertyClient interface when the property changes") ]
+      HRESULT ignoreSetAction([out,retval] VARIANT_BOOL *getIgnoreSetAction);
+
+      [ id(16),propput,helpstring("Enable usage violations debugging windows to show")]
+      HRESULT debuggingEnabled([in]VARIANT_BOOL);
+      [ id(16),propget,helpstring("Are debugging windows enabled?")]
+      HRESULT debuggingEnabled([out,retval]VARIANT_BOOL*);
+
+      [ id(17),propget,helpstring("Get a reference (pointer) to the the property's binary data.")]
+      HRESULT binaryData(BYTE **getAddress);
+
+      [ id(18),propget,helpstring("Get the property's compressed name that would be used by external agents not smart enough to allow spaces in a property name. You should SysFree the string.")]
+      HRESULT compressedName(BSTR* getCompressedName);
+
+      [ id(19),propput,helpstring("Set the property's encoded Text. Used to set the value of a binary property using the encoded text string that was retrieved using get_encodedText.")]
+      HRESULT encodedText([in]BSTR putEncodedText);
+      [ id(19),propget,helpstring("Get the property's encoded Text, a representation that can be saved in a text file (returns a BSTR). You should SysFree the string.")]
+      HRESULT encodedText([out,retval]BSTR* getEncodedText);
+
+      [ id(20),propget,helpstring("Get the VARTYPE value that would be used if the property was to be assigned a value. This does not imply that all properties are VARIANTS, only that there is a VARTYPE that would be associated with a property.")]
+      HRESULT variantType([out,retval]VARTYPE*);
+
+      // Value Methods
+
+      [ id(26),propput, helpstring("The Long value of the property") ]
+      HRESULT longValue([in] long);
+      [ id(26),propget, helpstring("The Long value of the property") ]
+      HRESULT longValue([out,retval] long *);
+
+      [ id(30),propput, helpstring("The double value of the property") ]
+      HRESULT doubleValue([in] double);
+      [ id(30),propget, helpstring("The double value of the property") ]
+      HRESULT doubleValue([out,retval] double *);
+
+      [ id(32),propput,helpstring("Set the value of a binary property. Pass a pointer to BYTE in the HANDLE parameter.")]
+      HRESULT binaryValue([in] long cbSize,[in]BYTE *);
+      [ id(32),propget, helpstring("Retrieve the binary value of the property. Pass a pointer to BYTE (with cbSize allocated bytes) in the HANDLE parameter.") ]
+      HRESULT binaryValue([in] long cbSize,[out,retval]BYTE **);
+
+      [ id(34),propput,helpstring("Set the zero terminated (the typical 'C' style string of 1-byte characters) value of the property") ]
+      HRESULT szValue([in] char *pNewString);
+      [ id(34),propget,helpstring("Get the zero terminated (the typical 'C' style string of 1-byte characters) value of the property") ]
+      HRESULT szValue([out,retval]char *pOutput);
+
+      [ id(35),propput, helpstring("Set the String (the OLE/COM/VB style BSTR) value of the property") ]
+      HRESULT stringValue([in] BSTR);
+      [ id(35),propget, helpstring("Get the String (the OLE/COM/VB style BSTR) value of the property. Caller should SysFreeString the result.") ]
+      HRESULT stringValue([out,retval] BSTR *);
+
+      [ id(36),propput,helpstring("Set the array of VARIANTs value of the property") ]
+      HRESULT arrayValue([in]SAFEARRAY(VARIANT) variants);
+      [ id(36),propget,helpstring("Get the array of VARIANTs value of the property") ]
+      HRESULT arrayValue([out,retval] SAFEARRAY(VARIANT)* variants);
+
+      [ id(37),propput, helpstring("Set the boolean value of the property") ]
+      HRESULT boolValue([in] short);
+      [ id(37),propget, helpstring("Get the boolean value of the property") ]
+      HRESULT boolValue([out,retval] short* );
+
+      [ id(38),propput, helpstring("Set the variant value of the property.")]
+      HRESULT variantValue([in] VARIANT );
+      [ id(38),propget, helpstring("Gets the value of the property into a variant.")]
+      HRESULT variantValue([out,retval] VARIANT * );
+
+      [ id(39),propput,helpstring("When using an array property, set the active 'index' into the array")]
+      HRESULT arrayIndex([in]long index);
+      [ id(39),propget,helpstring("When using an array property, retrieve the active 'index' into the array")]
+      HRESULT arrayIndex([out,retval] long*);
+
+      [ id(21),propput,helpstring("Put a value into the array property's array. Specify -1 as the index to add the item to the array, a value in the range of the array otherwise. Note the right most dimension moves fastest and that an index = n is the nth element in the array")]
+      HRESULT arrayElement([in]long index,[in]VARIANT elementValue);
+      [ id(21),propget,helpstring("Gets a value from the array property's array.")]
+      HRESULT arrayElement([in]long index,[out,retval]VARIANT * elementValue);
+
+      [ id(22),propget,helpstring("Returns the # of elements in the array")]
+      HRESULT arrayElementCount([out,retval]long* countElements);
+
+      [ id(23),helpstring("Emptys the elements from the property array")]
+      HRESULT clearArray();
+
+      // General Methods
+
+      [ id(51),helpstring("Set the property's storage address in your address space, i.e., give the property access to update a value in your memory space")]
+      HRESULT directAccess([in]enum PropertyType propertyType,[in]void* directAccess,[in]long directAccessSize);
+
+      [ id(52),helpstring("Copy the value of one property (the instance whose IGProperty interface you have) into another (the destination)")]
+      HRESULT copyTo([in]IGProperty* pTheDestination);
+
+      // Storage of external objects
+
+      [ id(53),helpstring("Adds an object to the array of objects whose persistence data will be saved as part of a TYPE_OBJECT_STORAGE_ARRAY property.\n\nAddRefs the object if it supports IPersistStorage.")]
+      HRESULT addStorageObject([in]IUnknown* pObjectSupportingIPersistStorage);
+
+      [ id(54),helpstring("Removes an object previously added to the array of objects whose persistence data will be saved as part of a TYPE_OBJECT_STORAGE_ARRAY property")]
+      HRESULT removeStorageObject([in]IUnknown* pObjectSupportingIPersistStorage);
+
+      [ id(55),helpstring("Removes all objects previously added to the array of objects whose persistence data will be saved as part of a TYPE_OBJECT_STORAGE_ARRAY property")]
+      HRESULT clearStorageObjects();
+
+      [ id(56),propget,helpstring("Retrieves the number of objects that exist in the binary data awaiting to be used to restore the objects")]
+      HRESULT storedObjectCount([out,retval]long* cntObjects);
+
+      [ id(57),helpstring("When the property type is TYPE_OBJECT_STORAGE_ARRAY, this method creates a storage object for all objects passed to addStorageObject().\nThis data is then saved as the property's data.")]
+      HRESULT writeStorageObjects();
+
+      [ id(58),helpstring("If any objects were previously saved in an array of objects using addStorageObject(), then this method is used to re-initialize those objects from the storage data saved with the property.")]
+      HRESULT readStorageObjects();
+
+      // Window contents support
+
+      [ id(100),helpstring("Set the value based on the text in a control")]
+      HRESULT getWindowValue([in] HWND hwndControl);
+
+      [ id(101),helpstring("Set the value based on the text in a dialog item")]
+      HRESULT getWindowItemValue([in] HWND hwndDialog,[in] long idControl);
+
+      [ id(102),helpstring("Set the value based on the text in a control (an alias for getWindowValue)")]
+      HRESULT getWindowText([in] HWND hwndControl);
+
+      [ id(103),helpstring("Set the value based on the text in a dialog item (an alias for getWindowItemValue)")]
+      HRESULT getWindowItemText([in] HWND hwndDialog,[in] long idControl);
+
+      [ id(104),helpstring("Set the text of a control to the value of the property")]
+      HRESULT setWindowText([in] HWND hwndControl);
+
+      [ id(105),helpstring("Set the text of a dialog item to the value of the property")]
+      HRESULT setWindowItemText([in] HWND hwndDialog,[in] long idControl);
+
+         // Combo boxes
+
+      [ id(110),helpstring("Set the selection for the control (works with combo-boxes and checkmarks")]
+      HRESULT setWindowComboBoxSelection([in] HWND hwndControl);
+
+      [ id(111),helpstring("Set the selection for the window (works with combo-boxes and checkmarks")]
+      HRESULT setWindowItemComboBoxSelection([in] HWND hwndDialog,[in] long idControl);
+
+      [ id(112),helpstring("Get the selection in the window for the value")]
+      HRESULT getWindowComboBoxSelection([in] HWND hwndControl);
+
+      [ id(113),helpstring("Get the selection in the window for the value")]
+      HRESULT getWindowItemComboBoxSelection([in] HWND hwndDialog,[in] long idControl);
+
+      [ id(114),helpstring("Sets the contents of the combo box control from the property's array of strings")]
+      HRESULT setWindowComboBoxList([in] HWND hwndControl);
+
+      [ id(115),helpstring("Sets the contents of the list box control (that is a member of a dialog) from the property's array of strings")]
+      HRESULT setWindowItemComboBoxList([in] HWND hwndDialog,[in] long idControl);
+
+      [ id(116),helpstring("Retrieves the contents of the list box control into the property's array of strings")]
+      HRESULT getWindowComboBoxList([in] HWND hwndControl);
+
+      [ id(117),helpstring("Sets the contents of the list box control (that is a member of a dialog) into the property's array of strings")]
+      HRESULT getWindowItemComboBoxList([in] HWND hwndDialog,[in] long idControl);
+
+         // List boxes
+
+      [ id(120),helpstring("Set the selection for the control (works with combo-boxes and checkmarks")]
+      HRESULT setWindowListBoxSelection([in] HWND hwndControl);
+
+      [ id(121),helpstring("Set the selection for the window (works with combo-boxes and checkmarks")]
+      HRESULT setWindowItemListBoxSelection([in] HWND hwndDialog,[in] long idControl);
+
+      [ id(122),helpstring("Get the selection in the window for the value")]
+      HRESULT getWindowListBoxSelection([in] HWND hwndControl);
+
+      [ id(123),helpstring("Get the selection in the window for the value")]
+      HRESULT getWindowItemListBoxSelection([in] HWND hwndDialog,[in] long idControl);
+
+      [ id(124),helpstring("Sets the contents of the list box control from the property's array of strings")]
+      HRESULT setWindowListBoxList([in] HWND hwndControl);
+      [ id(125),helpstring("Sets the contents of the list box control (that is a member of a dialog) from the property's array of strings")]
+      HRESULT setWindowItemListBoxList([in] HWND hwndDialog,[in] long idControl);
+
+      [ id(126),helpstring("Retrieves the contents of the list box control into the property's array of strings")]
+      HRESULT getWindowListBoxList([in] HWND hwndControl);
+
+      [ id(127),helpstring("Sets the contents of the list box control (that is a member of a dialog) into the property's array of strings")]
+      HRESULT getWindowItemListBoxList([in] HWND hwndDialog,[in] long idControl);
+
+         // Array properties and arrays of controls
+
+      [ id(130),helpstring("Set the value of an array property based on the text in each control of an array of controls")]
+      HRESULT getWindowArrayValues([in] SAFEARRAY(long)* hwndControl);
+
+      [ id(131),helpstring("Set the value of an array property based on the text in an array of dialog items")]
+      HRESULT getWindowItemArrayValues([in] SAFEARRAY(long)* hwndDialog,[in] SAFEARRAY(long)* idControl);
+
+      [ id(132),helpstring("Set the text of several control windows based on the values in the array property")]
+      HRESULT setWindowArrayValues([in] SAFEARRAY(long)* hwndControl);
+
+      [ id(133),helpstring("Set the text of several dialog item windows based on the values in the array property")]
+      HRESULT setWindowItemArrayValues([in] SAFEARRAY(long)* hwndDialog,[in] SAFEARRAY(long)* idControl);
+
+         // State controls (radio buttons and check boxes)
+
+      [ id(140),helpstring("Set the Checked state (checkbox,radioButton) for the control")]
+      HRESULT setWindowChecked([in] HWND hwndControl);
+
+      [ id(141),helpstring("Set the Checked state (checkbox,radioButton) for the control in the dialog box")]
+      HRESULT setWindowItemChecked([in] HWND hwndDialog,[in] long idControl);
+
+      [ id(142),helpstring("Get the Checked state (checkbox,radioButton) for the value")]
+      HRESULT getWindowChecked([in] HWND hwndControl);
+
+      [ id(143),helpstring("Get the Checked state (checkbox,radioButton) for the value from the control in the dialog box")]
+      HRESULT getWindowItemChecked([in] HWND hwndDialog,[in] long idControl);
+
+      // Enabled/Disabled
+
+      [ id(150),helpstring("Set the enabled state")]
+      HRESULT setWindowEnabled([in]HWND hwndControl);
+
+      [ id(151),helpstring("set the enabled state")]
+      HRESULT setWindowItemEnabled([in]HWND hwndDialog,[in] long idControl);
+
+      // For internal use
+
+      [ id(201),hidden] HRESULT assign(void* anyData,long length);
+
+   };
+
+   [ uuid(9CAEFD8E-55E6-11d3-8365-006008BD5BC3),
+     helpstring("G System, Properties; Client provided interface to IGProperty notifies of a change in a property."),dual,oleautomation,pointer_default(unique)]
+
+   interface IGPropertyClient : IDispatch {
+
+      [ helpstring("Called when the Property has changed")]
+      HRESULT Changed([in]IGProperty *);
+
+   };
+
+   [uuid(9CAEFD8A-55E6-11d3-8365-006008BD5BC3),
+   helpstring("InnoVisioNate Properties Interface")] 
+   interface IGProperties : IDispatch {
+
+   // General attributes
+
+      [ id(10),propput,helpstring("Enable usage violation windows to show. Note that methods that would otherwise return E_FAIL will return S_OK when usage violations occur, so that you can note the problem and continue on.")]
+      HRESULT DebuggingEnabled([in]VARIANT_BOOL setEnabled);
+      [ id(10),propget,helpstring("Are debugging windows enabled?")]
+      HRESULT DebuggingEnabled([out,retval]VARIANT_BOOL* pGetEnabled);
+
+   // File Attributes
+
+      [ id(21),propput,helpstring("Set the name of the storage file")]
+      HRESULT FileName([in]BSTR fileName);
+      [ id(21),propget,helpstring("Get the name of the storage file")]
+      HRESULT FileName([out,retval]BSTR* pfileName);
+
+      [ id(23),propput,helpstring("Set the extension(s) used in saving or opening files (separate multiple extensions with ';')")]
+      HRESULT FileAllowedExtensions([in]BSTR fileExtensions);
+      [ id(23),propget,helpstring("Get the extension used in saving or opening files")]
+      HRESULT FileAllowedExtensions([out,retval]BSTR* pfileExtensions);
+
+      [ id(24),propput,helpstring("Set the type description used in saving or opening files")]
+      HRESULT FileType([in]BSTR fileType);
+      [ id(24),propget,helpstring("Get the type description used in saving or opening files")]
+      HRESULT FileType([out,retval]BSTR* pfileType);
+
+      [ id(25),propput,helpstring("Set the Save/Open dialog titlebar text")]
+      HRESULT FileSaveOpenText([in]BSTR fileSaveOpenText);
+      [ id(25),propget,helpstring("Get the Save/Open dialog titlebar text")]
+      HRESULT FileSaveOpenText([out,retval]BSTR* pfileSaveOpenText);
+
+   // File Actions
+
+      [ id(26),helpstring("Initializes the Properties. Results in a call to InitNew() on IGPropertiesClient if implemented.")]
+      HRESULT New();
+
+      [ id(27),helpstring("The user selects and opens a file (that was previously saved with the current PropertiesMechanism !)")]
+      HRESULT Open([out,retval]BSTR* pTheFileName);
+
+      [ id(28),helpstring("The system opens the file that was named using the FileName property")]
+      HRESULT LoadFile([out,retval]VARIANT_BOOL *wasSuccessful);
+      
+      [ id(29),helpstring("Open a specific file (that was previously saved with the current PropertiesMechanism !)")]
+      HRESULT OpenFile([in]BSTR fileName);
+
+      [ id(30),helpstring("Save the properties to the current file")]
+      HRESULT Save();
+
+      [ id(31),helpstring("Save the properties to the named file (overwriting it!)")]
+      HRESULT SaveTo(BSTR bstrFileName);
+
+      [ id(32),helpstring("Prompt for a file name and save to it using the current PropertiesMechanism")]
+      HRESULT SaveAs([out,retval]BSTR* pTheFileName);
+
+   // Individual Property manipulation
+
+      [ id(40),helpstring("Creates a new property with the optional name \"name\". Pass a Non-NULL pointer to a pointer to IGProperty to retrieve the created IGProperty interface, No need to AddRef() or release the property, it is maintained by the properties component.") ]
+      HRESULT Add([in] BSTR name,[out,retval,defaultvalue(0)] IGProperty** ppIGProperty);
+
+      [ id(42),helpstring("Adds an already created property for management by the GSystem Properties Control. GSystem Properties Control will not AddRef() the pointer so it needs to remain valid through the lifetime of the GSystem Properties Control.")]
+      HRESULT Include([in]IGProperty* pIGProperty);
+
+      [ id(43),helpstring("Removes a property already added")]
+      HRESULT Remove([in]BSTR propertyName);
+
+      [ id(44),propget,helpstring("Get the IGProperty interface for the property with the given name")]
+      HRESULT Property([in]BSTR propertyName,[out,retval]IGProperty** pIGProperty);
+
+   // Other Attributes
+
+      [ id(61),propget, helpstring("Gets the number of properties in the collection") ]
+      HRESULT Count([out,retval] long* theCount);
+
+      [ id(62),propget,helpstring("Get the size of the entire property set")]
+      HRESULT Size([out,retval] long *getSize);
+
+      [ id(63),propget,helpstring("Get the currently active IStorage interface (don't AddRef() it)")]
+      HRESULT IStorage([out,retval]IStorage **);
+
+      [ id(64),propget,helpstring("Get the currently active IStream interface (don't AddRef() it)")]
+      HRESULT IStream([out,retval]IStream **);
+
+   // Other Actions
+
+      [ id(101),helpstring("Advise function to post the client's IGPropertiesClient implementation, an optional interface the client uses to capture persistence and to implement persistence on other \"owned\" objects the client maintains. The interface is AddRef()ed.")]
+      HRESULT Advise(IGPropertiesClient *pIGPropertiesClient);
+
+      [ id(102),helpstring("Set the named property's storage address in your address space, i.e., give the property access to update a value in your memory space")]
+      HRESULT DirectAccess([in]BSTR propertyName,[in]enum PropertyType propertyType,[in]void* directAccess,[in]long directAccessSize);
+
+      [ id(103),helpstring("Call to set the CLSID to identify your object. Pass a VARIANT pointer to 128 bytes. If you don't implement IGPropertiesClient (which includes GetClassID()), you need to provide this information as containers typically require it.")]
+      HRESULT SetClassID([in]BYTE *ptrTo128BYTES);
+
+      [ id(104),helpstring("Copy the values of ALL properties from one instance to another")]
+      HRESULT CopyTo([in]IGProperties *pTheDestination);
+
+      [ id(105),helpstring("Get the count of, and the array of IGProperty interfaces. The caller should call CoTaskMemFree on the returned array. The caller should also eventually Release() all the interfaces.")]
+      HRESULT GetPropertyInterfaces([in]long* pCntInterfaces,[in]IGProperty*** pTheArray);
+
+      // Persistence Support
+
+      [ id(201),helpstring("Provides an object that the property control will add to it's internal list of objects whose properties will manipulated. Note the object must support some persistence interface.")]
+      HRESULT AddObject([in]IUnknown* pObject);
+
+      [ id(202),helpstring("Removes a previously added object from the property control's list of persistence objects.")]
+      HRESULT RemoveObject([in]IUnknown* pObject);
+
+      [ id(203),helpstring("Provide a window that receives messages during the init/load/save process (a simple alternative to implementing IGPropertiesClient)")]
+      HRESULT PutHWNDPersistence([in] HWND hwndPersistence,[in] HWND hwndInit,[in] HWND hwndLoad, [in] HWND hwndSavePrep);
+
+      [ id(204),helpstring("Remove one of the windows that was previously added to the group of persistence process windows.")]
+      HRESULT RemoveHWNDPersistence([in] HWND hwndPersistence);
+
+      [ id(205),helpstring("Is the Property Set Dirty? (S_OK for yes, S_FALSE for no)") ]
+      HRESULT IsDirty();
+
+      [ id(210),helpstring("Save the given object to the file named. The object must support one of the persistence interfaces")]
+      HRESULT SaveObjectToFile(IUnknown* pObject,BSTR fileName);
+
+      [ id(211),helpstring("Load the object from the file named, which was previously saved using the GSystem Properties Component.")]
+      HRESULT LoadObjectFromFile(IUnknown* pObject,BSTR fileName);
+
+      // Property Page Support
+
+      [ id(300),helpstring("Advise function to post the client's IGPropertyPageClient implementation, an optional interface the client uses to capture property page settings. This call will AddRef() the provided interface if successful.")]
+      HRESULT AdvisePropertyPageClient(IGPropertyPageClient *pIGPropertyPageClient,[defaultvalue(0)] boolean usePropertySheets);
+
+      [ id(301),helpstring("Provide the IUnknown of an object that implements IGPropertiesClient and whose property pages are to be included in the property pages of the object which is maintaining the Properties component object (the Object is AddRefed if successfull)")]
+      HRESULT AddPropertyPage(IUnknown* pIUnknown_anotherObject,[defaultvalue(0)] boolean usePropertySheets);
+
+      [ id(302),helpstring("Provide the IUnknown of an object that implements IGPropertiesClient and whose property pages are are not longer to be included in the property pages of the object which is maintaining the Properties component object")]
+      HRESULT RemovePropertyPage(IUnknown* pIUnknown_anotherObject,[defaultvalue(0)] boolean usePropertySheets);
+
+      [ id(303),helpstring("Set the name and handle of the window to show when changing properties (successive calls add pages)") ]
+      HRESULT PutHWNDPropertyPage([in]BSTR displayName,[in] HWND hwndPropertyPage,[in] HWND hwndStart,[in] HWND hwndOk,[in] HWND hwndApply, [in] HWND hwndCancel);
+
+      [ id(304),helpstring("Remove one of the windows that was previously added to the group of property page windows.")]
+      HRESULT RemoveHWNDPropertyPage([in] HWND hwndPropertyPage);
+
+      [ id(305),helpstring("Show property pages using stock Windows SDK capabilities (as opposed to the IGPropertyPages interface)") ]
+      HRESULT ShowProperties(HWND windowHandleOwner,IUnknown* ObjectWithProperties);
+
+      [ id(306),helpstring("Initiate the property page(s) for the object whose IUnknown is passed. Provide the text for the properties tab and the handle of the window which should be the owner of the properties window")]
+      HRESULT EditProperties(HWND windowHandleOwner,BSTR Text,[in,defaultvalue(0)]IUnknown* ObjectWithProperties);
+
+      [ id(307),helpstring("Save the properties")]
+      HRESULT Push();
+      
+      [ id(308),helpstring("Restore the properties")]
+      HRESULT Pop();
+
+      [ id(309),helpstring("Discards the top (last) level of the \"pushed\" (saved) properties.")]
+      HRESULT Discard();
+
+      [ id(310),helpstring("Compare the properties with the \"pushed\" properties, if the same, returns S_OK, if different, returns S_FALSE")]
+      HRESULT Compare([out,retval]VARIANT_BOOL*);
+
+      [ id(311),helpstring("Connect the container's IPropertyNotifySink interface to the control so that Property Change notifications may occur")]
+      HRESULT ConnectPropertyNotifySink(IPropertyNotifySink* pContainerPropertyNotifySink,DWORD * pdwCookie);
+
+      [ id(312),helpstring("If you have provided an IPropertyNotifySink pointer to the GSystem Properties Component, you should forward calls from your own implementation of IConnectionPointContainer to his method for the IPropertyNotifyClient interface")]
+      HRESULT FindConnectionPoint(REFIID riid,IConnectionPoint **);
+
+      // Window contents support
+
+      [ id(401),helpstring("Set the value based on the text in a control")]
+      HRESULT GetWindowValue([in]BSTR propertyName,[in] HWND hwndControl);
+
+      [ id(402),helpstring("Set the value based on the text in a dialog item")]
+      HRESULT GetWindowItemValue([in]BSTR propertyName,[in] HWND hwndDialog,[in] long idControl);
+
+      [ id(4015),helpstring("Set the value based on the text in a control (an alias for GetWindowValue)")]
+      HRESULT GetWindowText([in]BSTR propertyName,[in] HWND hwndControl);
+
+      [ id(4025),helpstring("Set the value based on the text in a dialog item (an alias for GetWindowItemValue)")]
+      HRESULT GetWindowItemText([in]BSTR propertyName,[in] HWND hwndDialog,[in] long idControl);
+
+      [ id(403),helpstring("Set the text of a control to the value of the property")]
+      HRESULT SetWindowText([in]BSTR propertyName,[in] HWND hwndControl);
+
+      [ id(404),helpstring("Set the text of a dialog item to the value of the property")]
+      HRESULT SetWindowItemText([in]BSTR propertyName,[in] HWND hwndDialog,[in] long idControl);
+
+         // Combo-Boxes 
+
+      [ id(411),helpstring("Set the selection for the control (works with combo-boxes and listBoxes (?) ")]
+      HRESULT SetWindowComboBoxSelection([in]BSTR propertyName,[in] HWND hwndControl);
+
+      [ id(412),helpstring("Set the selection for the window (works with combo-boxes and listBoxes (?) ")]
+      HRESULT SetWindowItemComboBoxSelection([in]BSTR propertyName,[in] HWND hwndDialog,[in] long idControl);
+
+      [ id(413),helpstring("Get the selection in the window for the value")]
+      HRESULT GetWindowComboBoxSelection([in]BSTR propertyName,[in] HWND hwndControl);
+
+      [ id(414),helpstring("Get the selection in the window for the value")]
+      HRESULT GetWindowItemComboBoxSelection([in]BSTR propertyName,[in] HWND hwndDialog,[in] long idControl);
+
+      [ id(415),helpstring("Sets the contents of the combo box control from the property's array of strings")]
+      HRESULT SetWindowComboBoxList([in]BSTR propertyName,[in] HWND hwndControl);
+
+      [ id(416),helpstring("Sets the contents of the list box control (that is a member of a dialog) from the property's array of strings")]
+      HRESULT SetWindowItemComboBoxList([in]BSTR propertyName,[in] HWND hwndDialog,[in] long idControl);
+
+      [ id(417),helpstring("Retrieves the contents of the list box control into the property's array of strings")]
+      HRESULT GetWindowComboBoxList([in]BSTR propertyName,[in] HWND hwndControl);
+
+      [ id(418),helpstring("Sets the contents of the list box control (that is a member of a dialog) into the property's array of strings")]
+      HRESULT GetWindowItemComboBoxList([in]BSTR propertyName,[in] HWND hwndDialog,[in] long idControl);
+
+         // List boxes
+
+      [ id(421),helpstring("Set the selection for the control (works with combo-boxes and checkmarks")]
+      HRESULT SetWindowListBoxSelection([in]BSTR propertyname,[in] HWND hwndControl);
+
+      [ id(422),helpstring("Set the selection for the window (works with combo-boxes and checkmarks")]
+      HRESULT SetWindowItemListBoxSelection([in]BSTR propertyname,[in] HWND hwndDialog,[in] long idControl);
+
+      [ id(423),helpstring("Get the selection in the window for the value")]
+      HRESULT GetWindowListBoxSelection([in]BSTR propertyname,[in] HWND hwndControl);
+
+      [ id(424),helpstring("Get the selection in the window for the value")]
+      HRESULT GetWindowItemListBoxSelection([in]BSTR propertyname,[in] HWND hwndDialog,[in] long idControl);
+
+      [ id(425),helpstring("Sets the contents of the list box control from the property's array of strings")]
+      HRESULT SetWindowListBoxList([in]BSTR propertyname,[in] HWND hwndControl);
+      [ id(426),helpstring("Sets the contents of the list box control (that is a member of a dialog) from the property's array of strings")]
+      HRESULT SetWindowItemListBoxList([in]BSTR propertyname,[in] HWND hwndDialog,[in] long idControl);
+
+      [ id(427),helpstring("Retrieves the contents of the list box control into the property's array of strings")]
+      HRESULT GetWindowListBoxList([in]BSTR propertyname,[in] HWND hwndControl);
+      [ id(428),helpstring("Sets the contents of the list box control (that is a member of a dialog) into the property's array of strings")]
+      HRESULT GetWindowItemListBoxList([in]BSTR propertyname,[in] HWND hwndDialog,[in] long idControl);
+
+         // Array Data support
+
+      [ id(431),helpstring("Set the value of an array property based on the text in each control of an array of controls")]
+      HRESULT GetWindowArrayValues([in]BSTR propertyName,[in] SAFEARRAY(long)* hwndControl);
+
+      [ id(432),helpstring("Set the value of an array property based on the text in an array of dialog items")]
+      HRESULT GetWindowItemArrayValues([in]BSTR propertyName,[in] SAFEARRAY(long)* hwndControl,[in] SAFEARRAY(long)* idControl);
+
+      [ id(433),helpstring("Set the text of several control windows based on the values in the array property")]
+      HRESULT SetWindowArrayValues([in]BSTR propertyName,[in] SAFEARRAY(long)* hwndControl);
+
+      [ id(434),helpstring("Set the text of several dialog item windows based on the values in the array property")]
+      HRESULT SetWindowItemArrayValues([in]BSTR propertyName,[in] SAFEARRAY(long)* hwndControl,[in] SAFEARRAY(long)* idControl);
+
+
+         // Check-Boxes (radio Buttons?)
+
+      [ id(441),helpstring("Set the Checked state (checkbox,radioButton) for the control")]
+      HRESULT SetWindowChecked([in]BSTR propertyName,[in] HWND hwndControl);
+
+      [ id(442),helpstring("Set the Checked state (checkbox,radioButton) for the control in the dialog box")]
+      HRESULT SetWindowItemChecked([in]BSTR propertyName,[in] HWND hwndDialog,[in] long idControl);
+
+      [ id(443),helpstring("Get the Checked state (checkbox,radioButton) for the value")]
+      HRESULT GetWindowChecked([in]BSTR propertyName,[in] HWND hwndControl);
+
+      [ id(444),helpstring("Get the Checked state (checkbox,radioButton) for the value from the control in the dialog box")]
+      HRESULT GetWindowItemChecked([in]BSTR propertyName,[in] HWND hwndDialog,[in] long idControl);
+
+
+      // Enabled/Disabled
+
+      [ id(451),helpstring("Set the enabled state of the window")]
+      HRESULT SetWindowEnabled([in]BSTR propertyName,[in] HWND hwndControl);
+
+      [ id(452),helpstring("Set the enabled state of the window")]
+      HRESULT SetWindowItemEnabled([in]BSTR propertyName,[in] HWND hwndDialog,[in] long idControl);
+
+      // Other windows API support
+   
+      [ id(460),helpstring("Get the ID of a windows control, typically, the command ID")]
+      HRESULT GetWindowID([in] HWND hwnd,[out,retval] long* commandID);
+
+   };
+
+   [uuid(9CAEFD8B-55E6-11d3-8365-006008BD5BC3),
+    helpstring("G System Properties; Interface to the client for properties persistence Services. Implemented by the client of the properties object."),
+    dual,oleautomation,pointer_default(unique)] 
+
+    interface IGPropertiesClient : IUnknown {
+
+      [ helpstring("The properties are about to be saved, update the values of your properties, eg., if a string value is in a window, get the window text and put it into the property")] 
+      HRESULT SavePrep();
+
+      [ helpstring("Called when Properties should be initialized. This call is for the client to implement it's defaults.")]
+      HRESULT InitNew();
+
+      [ helpstring("Called just after the properties have been loaded. This call is for the client take actions after properties have been restored, such as updating it's window contents.")]
+      HRESULT Loaded();
+
+      [ helpstring("Called to ask if the properties are dirty. Return S_OK if true. Note that even if you return S_FALSE, if at least one of the individual properties is dirty, the save will still proceed.")]
+      HRESULT IsDirty();
+
+      [ helpstring("Implement this function to return the CLSID of your object. A pointer to void is passed which you should cast to a pointer to CLSID (this is so automation clients can implement the interface though they won't need this method")]
+      HRESULT GetClassID([in,out]BYTE* pCLSID);
+
+   };
+
+   [uuid(9CAEFD8B-55E7-11d3-8365-006008BD5BC3),
+    helpstring("G System Properties; Interface to the client for property page services. Implemented by the client (you) of the properties object."),
+    pointer_default(unique)] 
+
+    interface IGPropertyPageClient : IUnknown {
+
+      // Property Page support
+
+      [ helpstring("This method is called to notify you that property pages are likely to be needed soon. It is a good opportunity to prepare, for example by \"Push\"ing the properties on the properties stack.")]
+       HRESULT BeforeAllPropertyPages();
+
+      [ helpstring("This is called to get the count, text, name of help files, and the required size, of the property page(s). Set countPages to n (the number of pages), create an aray of n strings, and an array of 2n longs. Size is w,h of 1st page, then w,h of 2nd, etc.")]
+       HRESULT GetPropertyPagesInfo([in]long* countPages,[in,out]SAFEARRAY(BSTR)* stringPageNames,[in,out]SAFEARRAY(BSTR)* stringHelpDirs,[in,out]SAFEARRAY(LONG)* pSize);
+
+      [ helpstring("Called when the system needs you to create a property page window for display in the property page frame. The index is zero based and goes to to the number of pages - 1 specified in the GetPropertyPagesInfo call.\nReturn the handle of the created window.")]
+       HRESULT CreatePropertyPage([in]long pageNumber,[in]HWND hwndPropertyPageParent,[in]RECT* pRect,[in]BOOL isModal,[out,retval]HWND * pHwndPropertyPage);
+
+      [ helpstring("Check if the page is dirty. Set the return value to TRUE (non-zero) if any of the properties are out of date, FALSE (zero) otherwise.")]
+      HRESULT IsPageDirty([in]long pageNumber,[out,retval] int *);
+
+      [ helpstring("Provide Help given the passed in help file name (in a String). Return S_FALSE and the GSystem Properties Component will attempt to launch the help file, or return S_OK if you want to take your own action.")]
+       HRESULT Help(BSTR bstrHelpFile);
+
+      [ helpstring("The system will provide you with messages to that you can handle if desired, return S_OK (0) if you handle it, S_FALSE (1) if you don't.")]
+      HRESULT TranslateAccelerator([in]long pMsg,[out,retval]long* returnValue);
+
+      [ helpstring("Called when the Apply button is pressed. Note that some Property Page implementations may not provide an Apply button (such as Visual Studio). In this case, Apply() will be called whenever the property page looses activation.")]
+       HRESULT Apply();
+
+      [ helpstring("Called after the client is finished with all property pages. This is the counterpart to BeforeAllPropertyPages, so if you \"Push\"ed there, you should \"Pop\" (or \"Discard\") here.")]
+       HRESULT AfterAllPropertyPages(int userCancelled);
+
+      [ helpstring("Called when the system is finished with your property page. You should know that the parent window handled passed to CreatePropertyPage is not likely valid after you have recieved this call.")]
+       HRESULT DestroyPropertyPage([in]long pageNumberNumber);
+
+      [ helpstring("Fill in the PROPSHEETHEADER structure")]
+      HRESULT GetPropertySheetHeader(void *pHeader);
+
+      [ helpstring("The number of property pages to use"),propget]
+      HRESULT PropertyPageCount([out,retval] long *pCountPages);
+
+      [ helpstring("Load the PROPSHEETPAGE structures")]
+      HRESULT GetPropertySheets(void *pSheets);
+
+   };
+
+   [uuid(9CAEFD8C-55E7-11d3-8365-006008BD5BC3),
+      helpstring("InnoVisioNate Property Object")]
+
+    coclass InnoVisioNateProperty {
+      [default] interface IGProperty;
+   };
+
+
+   [uuid(9CAEFD89-55E7-11d3-8365-006008BD5BC3),
+   helpstring("InnoVisioNate Properties Control Class")]
+
+   coclass InnoVisioNateProperties {
+      [default] interface IGProperties;
+   };
+
+
+};
