@@ -6,7 +6,6 @@
 #include <list>
 #include <commctrl.h>
 
-#include "GSystem_i.h"
 #include "GSystemsProperties.h"
 
 #include "Properties_i.h"
