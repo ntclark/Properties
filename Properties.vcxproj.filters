@@ -150,6 +150,7 @@
     <None Include="General Files\Properties.def">
       <Filter>Source Files\General Files</Filter>
     </None>
+    <None Include="ReadMe.MD" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Com-Implementation\Properties.odl">

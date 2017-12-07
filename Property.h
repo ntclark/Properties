@@ -155,6 +155,8 @@
 
       STDMETHOD(assign)(void* anyValue,long valueLength);
 
+      void * STDMETHODCALLTYPE pointer();
+
    private:
 
       int updateFromDirectAccess();

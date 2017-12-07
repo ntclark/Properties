@@ -206,10 +206,10 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <CustomBuildStep>
-      <Command>regsvr32 /s /c "$(TargetPath)"
-echo regsvr32 exec. time &gt; "$(OutDir)regsvr32.trg"
-</Command>
-      <Outputs>$(OutDir)regsvr32.trg;%(Outputs)</Outputs>
+      <Command>
+      </Command>
+      <Outputs>
+      </Outputs>
     </CustomBuildStep>
     <Midl>
       <DefaultCharType>Ascii</DefaultCharType>
@@ -361,6 +361,7 @@ regsvr32  /s /c "$(TargetPath)"
   </ItemGroup>
   <ItemGroup>
     <None Include="General Files\Properties.def" />
+    <None Include="ReadMe.MD" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Com-Implementation\Properties.odl" />

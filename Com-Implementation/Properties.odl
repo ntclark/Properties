@@ -310,6 +310,8 @@ import "ocidl.idl";
 
       [ id(201),hidden] HRESULT assign(void* anyData,long length);
 
+      [ id(202)] void * pointer();
+
    };
 
    [ uuid(9CAEFD8E-55E6-11d3-8365-006008BD5BC3),

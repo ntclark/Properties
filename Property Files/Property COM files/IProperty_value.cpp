@@ -386,3 +386,6 @@
    }
 
 
+   void *Property::pointer() {
+   return v.binaryValue;
+   }
