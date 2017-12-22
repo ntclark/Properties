@@ -229,7 +229,17 @@
 
    HRESULT Property::get_longValue(long *getValue) {
    updateFromDirectAccess();
-   *getValue = v.scalar.longValue;
+   switch ( type ) {
+   case TYPE_BOOL:
+      *getValue = v.scalar.boolValue ? 1L : 0L;
+      return S_OK;
+   case TYPE_DOUBLE:
+      *getValue = (long)v.scalar.doubleValue;
+      return S_OK;
+   default:
+      *getValue = v.scalar.longValue;
+      break;
+   }
    return S_OK;
    }
  
@@ -273,7 +283,17 @@
 
    HRESULT Property::get_doubleValue(double *getValue) {
    updateFromDirectAccess();
-   *getValue = v.scalar.doubleValue;
+   switch ( type ) {
+   case TYPE_LONG:
+      *getValue = (double)v.scalar.longValue;
+      return S_OK;
+   case TYPE_BOOL:
+      *getValue = v.scalar.boolValue ? 1.0 : 0.0;
+      return S_OK;
+   default:
+      *getValue = v.scalar.doubleValue;
+      break;
+   }
    return S_OK;
    }
  
