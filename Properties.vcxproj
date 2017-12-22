@@ -76,25 +76,15 @@
     <_ProjectFileVersion>14.0.24720.0</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IgnoreImportLibrary>true</IgnoreImportLibrary>
-    <LinkIncremental>false</LinkIncremental>
-    <GenerateManifest>false</GenerateManifest>
     <TargetExt>.ocx</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IgnoreImportLibrary>true</IgnoreImportLibrary>
-    <LinkIncremental>false</LinkIncremental>
-    <GenerateManifest>false</GenerateManifest>
     <TargetExt>.ocx</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IgnoreImportLibrary>true</IgnoreImportLibrary>
-    <LinkIncremental>false</LinkIncremental>
     <TargetExt>.ocx</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IgnoreImportLibrary>true</IgnoreImportLibrary>
-    <LinkIncremental>false</LinkIncremental>
     <TargetExt>.ocx</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -102,12 +92,8 @@
       <Command />
     </CustomBuildStep>
     <Midl>
-      <DefaultCharType>Ascii</DefaultCharType>
       <TargetEnvironment>Win32</TargetEnvironment>
-      <TypeLibraryName>\Common\include\Properties.tlb</TypeLibraryName>
       <OutputDirectory>$(SolutionDir)</OutputDirectory>
-      <HeaderFileName>\Common\include\Properties_i.h</HeaderFileName>
-      <InterfaceIdentifierFileName>\Common\include\Properties_i.c</InterfaceIdentifierFileName>
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -129,25 +115,16 @@
       <AdditionalIncludeDirectories>\Common\Include;..\;..\h;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comctl32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <ManifestFile />
       <ModuleDefinitionFile>.\General Files\Properties.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention />
-      <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>./Properties.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>regsvr32 /c /s  "$(TargetPath)"
-
-
-
-</Command>
+      <Command>
+regsvr32 /c "D:\Common\Artifacts\Debug\Win32\$(TargetName)$(TargetExt)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -156,11 +133,7 @@
       </Command>
     </CustomBuildStep>
     <Midl>
-      <DefaultCharType>Ascii</DefaultCharType>
-      <TypeLibraryName>\Common\include\Properties.tlb</TypeLibraryName>
       <OutputDirectory>$(SolutionDir)</OutputDirectory>
-      <HeaderFileName>\Common\include\Properties_i.h</HeaderFileName>
-      <InterfaceIdentifierFileName>\Common\include\Properties_i.c</InterfaceIdentifierFileName>
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -181,27 +154,16 @@
       <AdditionalIncludeDirectories>\Common\Include;..\;..\h;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comctl32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <ManifestFile>
-      </ManifestFile>
       <ModuleDefinitionFile>.\General Files\Properties.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <TargetMachine>NotSet</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>./Properties.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>regsvr32 /c  /s "$(TargetPath)"
-
-
-
-</Command>
+      <Command>
+regsvr32 /c "D:\Common\Artifacts\Debug\Win32\$(TargetName)$(TargetExt)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -212,12 +174,8 @@
       </Outputs>
     </CustomBuildStep>
     <Midl>
-      <DefaultCharType>Ascii</DefaultCharType>
       <TargetEnvironment>Win32</TargetEnvironment>
-      <TypeLibraryName>\Common\include\Properties.tlb</TypeLibraryName>
       <OutputDirectory>$(SolutionDir)</OutputDirectory>
-      <HeaderFileName>\Common\include\Properties_i.h</HeaderFileName>
-      <InterfaceIdentifierFileName>\Common\include\Properties_i.c</InterfaceIdentifierFileName>
     </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
@@ -237,25 +195,16 @@
       <AdditionalIncludeDirectories>\Common\Include;..\;..\h;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comctl32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
       <ModuleDefinitionFile>.\General Files\Properties.def</ModuleDefinitionFile>
       <ProgramDatabaseFile />
-      <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>./Properties.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "$(TargetPath)" "%25ProgramFiles%25\InnoVisioNate\CursiVision"
-
-regsvr32  /s /c "%25ProgramFiles%25\InnoVisioNate\CursiVision\$(TargetFileName)"
-
-
-
-
-</Command>
+      <Command>
+regsvr32 /c "D:\Common\Artifacts\Debug\Win32\$(TargetName)$(TargetExt)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -266,11 +215,7 @@ echo regsvr32 exec. time &gt; "$(OutDir)regsvr32.trg"
       <Outputs>$(OutDir)regsvr32.trg;%(Outputs)</Outputs>
     </CustomBuildStep>
     <Midl>
-      <DefaultCharType>Ascii</DefaultCharType>
-      <TypeLibraryName>\Common\include\Properties.tlb</TypeLibraryName>
       <OutputDirectory>$(SolutionDir)</OutputDirectory>
-      <HeaderFileName>\Common\include\Properties_i.h</HeaderFileName>
-      <InterfaceIdentifierFileName>\Common\include\Properties_i.c</InterfaceIdentifierFileName>
     </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
@@ -290,28 +235,17 @@ echo regsvr32 exec. time &gt; "$(OutDir)regsvr32.trg"
       <AdditionalIncludeDirectories>\Common\Include;..\;..\h;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comctl32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
       <ModuleDefinitionFile>.\General Files\Properties.def</ModuleDefinitionFile>
       <ProgramDatabaseFile>
       </ProgramDatabaseFile>
-      <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>./Properties.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>rem copy "$(TargetPath)" "%25ProgramFiles%25\InnoVisioNate\CursiVision"
-rem regsvr32  /s /c "%25ProgramFiles%25\InnoVisioNate\CursiVision\$(TargetFileName)"
-regsvr32  /s /c "$(TargetPath)"
-
-
-
-
-
-
-</Command>
+      <Command>
+regsvr32 /c "D:\Common\Artifacts\Debug\Win32\$(TargetName)$(TargetExt)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
