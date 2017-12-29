@@ -124,7 +124,7 @@
     </Bscmake>
     <PostBuildEvent>
       <Command>
-regsvr32 /c "D:\Common\Artifacts\Debug\Win32\$(TargetName)$(TargetExt)"</Command>
+regsvr32 /s /c "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -163,7 +163,7 @@ regsvr32 /c "D:\Common\Artifacts\Debug\Win32\$(TargetName)$(TargetExt)"</Command
     </Bscmake>
     <PostBuildEvent>
       <Command>
-regsvr32 /c "D:\Common\Artifacts\Debug\Win32\$(TargetName)$(TargetExt)"</Command>
+regsvr32 /s /c "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -204,7 +204,7 @@ regsvr32 /c "D:\Common\Artifacts\Debug\Win32\$(TargetName)$(TargetExt)"</Command
     </Bscmake>
     <PostBuildEvent>
       <Command>
-regsvr32 /c "D:\Common\Artifacts\Debug\Win32\$(TargetName)$(TargetExt)"</Command>
+regsvr32 /s /c "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -245,7 +245,7 @@ echo regsvr32 exec. time &gt; "$(OutDir)regsvr32.trg"
     </Bscmake>
     <PostBuildEvent>
       <Command>
-regsvr32 /c "D:\Common\Artifacts\Debug\Win32\$(TargetName)$(TargetExt)"</Command>
+regsvr32 /s /c "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

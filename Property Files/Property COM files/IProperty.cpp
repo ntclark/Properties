@@ -124,8 +124,9 @@
    case TYPE_STRING:
 // 10-05-2002: Would trap if bstrValue was never set, which would be the case if the property was never given a value.
 //             Create an empty string if never assigned.
-      if ( ! bstrValue ) bstrValue = SysAllocStringLen(L"",1);
-      *getSize =(long) wcslen(bstrValue) + 1;
+      if ( ! bstrValue ) 
+         bstrValue = SysAllocStringLen(L"",1);
+      *getSize = 2 * ((long)wcslen(bstrValue) + 1);
       break;
 
    case TYPE_OBJECT_STORAGE_ARRAY: // <--- 09/21/07 ??
