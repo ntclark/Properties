@@ -269,7 +269,8 @@
             BSTR bstrName;
             pProperty -> get_name(&bstrName);
             WideCharToMultiByte(CP_ACP,0,bstrName,-1,szName,MAX_PROPERTY_SIZE,0,0);
-            sprintf(szError,"While attempting to save the properties, IProperties::Save has encountered the property \'%s\' that has never been given a value or doesn't use direct access storage.\n\nThis property is not saved.\n\nTurn debugging off to avoid this message.",szName);
+            sprintf(szError,"While attempting to save the properties, IProperties::Save has encountered the property \'%s\' that has never been given a value or doesn't use direct access storage.\n\n"
+                                    "This property is not saved.\n\nTurn debugging off to avoid this message.",szName);
             MessageBox(NULL,szError,"GSystem Properties Component usage note",MB_OK);
             SysFreeString(bstrName);
          }
@@ -293,14 +294,19 @@
             return hr;
          }
       } else {
-         char szError[MAX_PROPERTY_SIZE];
-         char szName[MAX_PROPERTY_SIZE];
-         BSTR bstrName;
-         pProperty -> get_name(&bstrName);
-         WideCharToMultiByte(CP_ACP,0,bstrName,-1,szName,MAX_PROPERTY_SIZE,0,0);
-         sprintf(szError,"While attempting to save the properties, IProperties::Save has encountered the property \'%s\' that does not have storage.\n\nThis property is not saved.\n\nTurn debugging off to avoid this message.",szName);
-         MessageBox(NULL,szError,"GSystem Properties Component usage note",MB_OK);
-         SysFreeString(bstrName);
+         //
+         //NTC: 01-14-2018: I am going to prevent this diagnostic for TYPE_BINARY data types because I think it is acceptable to have a 0-sized binary property
+         //
+         if ( ! ( TYPE_BINARY == si.propertyType ) ) {
+            char szError[MAX_PROPERTY_SIZE];
+            char szName[MAX_PROPERTY_SIZE];
+            BSTR bstrName;
+            pProperty -> get_name(&bstrName);
+            WideCharToMultiByte(CP_ACP,0,bstrName,-1,szName,MAX_PROPERTY_SIZE,0,0);
+            sprintf(szError,"While attempting to save the properties, IProperties::Save has encountered the property \'%s\' that does not have storage.\n\nThis property is not saved.\n\nTurn debugging off to avoid this message.",szName);
+            MessageBox(NULL,szError,"GSystem Properties Component usage note",MB_OK);
+            SysFreeString(bstrName);
+         }
       }
 
       if ( everAssigned && ( TYPE_BINARY == si.propertyType || TYPE_ARRAY == si.propertyType) ) 
@@ -468,7 +474,8 @@
             char szError[MAX_PROPERTY_SIZE];
             char szName[MAX_PROPERTY_SIZE];
             WideCharToMultiByte(CP_ACP,0,bstrName,-1,szName,MAX_PROPERTY_SIZE,0,0);
-            sprintf(szError,"While attempting to save the properties, IProperties::Save has encountered the property \'%s\' that has never been given a value or doesn't use direct access storage.\n\nThis property is not saved.\n\nTurn debugging off to avoid this message.",szName);
+            sprintf(szError,"While attempting to save the properties, IProperties::Save has encountered the property \'%s\' that has never been given a value or doesn't use direct access storage.\n\n"
+                              "This property is not saved.\n\nTurn debugging off to avoid this message.",szName);
             MessageBox(NULL,szError,"GSystem Properties Component usage note",MB_OK);
             SysFreeString(bstrName);
          }

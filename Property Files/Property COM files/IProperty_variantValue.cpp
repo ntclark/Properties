@@ -130,24 +130,80 @@
       pVariantArray = NULL;
    }
 
-   SafeArrayCopy(psa,&pVariantArray);
+   HRESULT rc = S_OK;
+
+   if ( FADF_BSTR & psa -> fFeatures ) {
+
+      long countDims = SafeArrayGetDim(psa);
+      long totalCount = 0;
+
+      SAFEARRAYBOUND *pBounds = new SAFEARRAYBOUND[countDims];
+
+      for ( long k = 0; k < countDims; k++ ) {
+         SafeArrayGetLBound(psa,k + 1,&pBounds[k].lLbound);
+         SafeArrayGetUBound(psa,k + 1,(LONG *)&pBounds[k].cElements);
+         pBounds[k].cElements = pBounds[k].cElements - pBounds[k].lLbound + 1;
+         totalCount += pBounds[k].cElements;
+      }
+
+      pVariantArray = SafeArrayCreate(VT_BSTR,countDims,pBounds);
+
+      BSTR *pValues = NULL;
+
+      BSTR *pSourceValues = NULL;
+
+      SafeArrayAccessData(psa,(void **)&pSourceValues);
+
+      SafeArrayAccessData(pVariantArray,(void **)&pValues);
+
+      for ( long k = 0; k < totalCount; k++ ) {
+
+         *pValues = SysAllocString(*pSourceValues);
+
+         pValues++;
+         pSourceValues++;
+
+      }
+
+      delete [] pBounds;
+
+      SafeArrayUnaccessData(psa);
+
+      SafeArrayUnaccessData(pVariantArray);
+
+   } else
+      rc = SafeArrayCopy(psa,&pVariantArray);
 
    return S_OK;
    }
 
 
    HRESULT Property::get_arrayValue(SAFEARRAY** ppsa) {
-   if ( ! ppsa ) return E_POINTER;
-   if ( ! *ppsa ) return E_POINTER;
+
+   if ( ! ppsa ) 
+      return E_POINTER;
+
+   //if ( ! *ppsa ) 
+   //   return E_POINTER;
+
    if ( pVariantArray )
       SafeArrayCopy(pVariantArray,ppsa);
-   else {
-      if ( debuggingEnabled ) {
-         char szError[MAX_PATH];
-         sprintf(szError,"An attempt was made to retrieve the array value of a property but the array value has never been assigned to the property");
-         MessageBox(NULL,szError,"GSystem Properties Component usage note",MB_OK);
-      }
-      return E_FAIL;
-   }
+
+   //
+   //NTC: 01-13-2018: I am taking this diagnostic out - I believe that this situation is okay, i.e., the array was not given a value
+   // when the properties were saved.
+   //
+   // But I am not sure ...
+   //
+
+   //else {
+   //   if ( debuggingEnabled ) {
+   //      char szError[MAX_PATH];
+   //      sprintf(szError,"An attempt was made to retrieve the array value of a property but the array value has never been assigned to the property");
+   //      MessageBox(NULL,szError,"GSystem Properties Component usage note",MB_OK);
+   //   }
+   //   return E_FAIL;
+   //}
+
    return S_OK;
    }
