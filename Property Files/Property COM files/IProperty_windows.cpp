@@ -13,7 +13,7 @@
    // Window Contents support
 
    HRESULT Property::getWindowValue(HWND hwndControl) {
-   char szValue[128];
+   char szValue[4096];
    if ( ! hwndControl ) {
       if ( debuggingEnabled ) {
          sprintf(szValue,"A NULL window handle was passed to Property::getWindowValue");
@@ -22,7 +22,7 @@
       }
       return E_FAIL;
    }
-   GetWindowText(hwndControl,szValue,64);
+   GetWindowText(hwndControl,szValue,4096);
    VARIANT_BOOL oldIgnoreSetAction = ignoreSetAction;
    ignoreSetAction = true;
    put_szValue(szValue);
