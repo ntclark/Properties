@@ -51,6 +51,16 @@
       }
       return E_FAIL;
    }
+
+
+   /*
+   NTC:01-26-2018: Found this bug that had been in this system for a very long time.
+   The following call to updateFromDirectAccess was NOT there on this date, the correction was to put it there.
+   Please inspect other "set...." methods to determine if this needs to be added there as well.
+   */
+
+   updateFromDirectAccess();
+
 /* 07/06/02 Added this switch statement because properties that had a scalar value
    were not getting a return value from propertyBinaryValue() that would display as text.
    Old code was just SetWindowText with propertyBinaryValue().
@@ -145,6 +155,7 @@
 
 
    HRESULT Property::setWindowComboBoxSelection(HWND hwndControl) {
+
    char szValue[MAX_PROPERTY_SIZE];
 
    if ( ! hwndControl ) {
@@ -156,8 +167,13 @@
       return E_FAIL;
    }
 
+   updateFromDirectAccess();
+
    HRESULT hr = get_szValue(szValue);
-   if ( S_OK != hr ) return hr;
+
+   if ( S_OK != hr ) 
+      return hr;
+
    LRESULT rv = SendMessage(hwndControl,CB_FINDSTRINGEXACT,-1L,(LPARAM)szValue);
 
    if ( CB_ERR == rv ) {
@@ -190,6 +206,8 @@
       SendMessage(hwndControl,CB_RESETCONTENT,0L,0L);
       return S_OK;
    }
+
+   updateFromDirectAccess();
 
    setComboBoxControlFromArray(hwndControl,pVariantArray);
 
@@ -337,7 +355,9 @@
 
 
    HRESULT Property::setWindowListBoxSelection(HWND hwndControl) {
+
    char szValue[MAX_PROPERTY_SIZE];
+
    if ( ! hwndControl ) {
       if ( debuggingEnabled ) {
          sprintf(szValue,"A NULL window handle was passed to IGProperty::setWindowListBoxSelection");
@@ -346,9 +366,15 @@
       }
       return E_FAIL;
    }
+
+   updateFromDirectAccess();
+
    HRESULT hr = get_szValue(szValue);
-   if ( S_OK != hr ) return hr;
+   if ( S_OK != hr ) 
+      return hr;
+
    LRESULT rv = SendMessage(hwndControl,LB_FINDSTRINGEXACT,-1L,(LPARAM)szValue);
+
    if ( LB_ERR == rv ) {
       if ( debuggingEnabled ) {
          sprintf(szValue,"The string %s was intended as the selection in a List box control, however, that value is not already in the List box control. Method IGProperty::setWindowListBoxSelection",propertyBinaryValue());
@@ -357,7 +383,9 @@
       }
       return E_FAIL;
    }
+
    SendMessage(hwndControl,LB_SETCURSEL,rv,0);
+
    return S_OK;
    }
 
@@ -886,7 +914,7 @@
          }
          strcpy(szYesNo,reinterpret_cast<char*>(v.binaryValue));
       }
-      strlwr(szYesNo);
+      _strlwr(szYesNo);
       if ( szYesNo[0] == 'y' ) { 
          isChecked = 1;
       } else {

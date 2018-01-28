@@ -261,11 +261,11 @@
    MultiByteToWideChar(CP_ACP,0,reinterpret_cast<char*>(v.binaryValue),-1,bstrValue,v.binarySize);
 
    setBinaryValueDirectAccess();
-   if ( ! setScalarValueAndDirectAccess() ) {         // 9/21/2002: set scalar value if setScalarValue... returns false
-      v.scalar.doubleValue = inValue;
-   }
 
-   if ( !ignoreSetAction ) 
+   if ( ! setScalarValueAndDirectAccess() )
+      v.scalar.doubleValue = inValue;
+
+   if ( ! ignoreSetAction ) 
       if ( pIPropertyClient ) 
          pIPropertyClient -> Changed(this);
 
@@ -286,9 +286,12 @@
    case TYPE_BOOL:
       *getValue = v.scalar.boolValue ? 1.0 : 0.0;
       return S_OK;
-   default:
+   case TYPE_DOUBLE:
       *getValue = v.scalar.doubleValue;
-      break;
+      return S_OK;
+   default:
+      *getValue = atof((char *)v.binaryValue);
+      return S_OK;
    }
    return S_OK;
    }
