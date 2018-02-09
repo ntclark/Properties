@@ -45,9 +45,6 @@
     <ClCompile Include="..\Common\source\registryUtils.cpp">
       <Filter>Source Files\General Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\source\Utils.cpp">
-      <Filter>Source Files\General Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Common\source\VariantUtils.cpp">
       <Filter>Source Files\General Files</Filter>
     </ClCompile>
@@ -125,6 +122,9 @@
     </ClCompile>
     <ClCompile Include="Property Files\Property_Variants.cpp">
       <Filter>Source Files\Property Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Utils\Utils.cpp">
+      <Filter>Source Files\General Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

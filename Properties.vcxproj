@@ -252,8 +252,8 @@ regsvr32 /s /c "$(TargetPath)"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Common\source\registryUtils.cpp" />
-    <ClCompile Include="..\Common\source\Utils.cpp" />
     <ClCompile Include="..\Common\source\VariantUtils.cpp" />
+    <ClCompile Include="..\Common\Utils\Utils.cpp" />
     <ClCompile Include="Com-Implementation\Connection Points\IConnectionPoint.cpp" />
     <ClCompile Include="Com-Implementation\Connection Points\IConnectionPointContainer.cpp" />
     <ClCompile Include="Com-Implementation\Connection Points\IEnumConnectionPoints.cpp" />

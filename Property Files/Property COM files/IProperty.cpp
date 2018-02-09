@@ -332,11 +332,12 @@
 
  
 
-   HRESULT Property::addStorageObject(IUnknown* pObject) {
+   HRESULT Property::addStorageObject(IUnknown *pObject) {
 
-   if ( ! pObject ) return E_POINTER;
+   if ( ! pObject ) 
+      return E_POINTER;
 
-   IPersistStream* pIPersistStream;
+   IPersistStream *pIPersistStream;
 
    HRESULT hr = pObject -> QueryInterface(IID_IPersistStream,reinterpret_cast<void**>(&pIPersistStream));
 
@@ -368,9 +369,10 @@
    }
 
 
-   HRESULT Property::removeStorageObject(IUnknown* pObject) {
+   HRESULT Property::removeStorageObject(IUnknown *pObject) {
    
-   if ( ! pObject ) return E_POINTER;
+   if ( ! pObject ) 
+      return E_POINTER;
 
    if ( storageObjects.Count() < 1 ) {
       if ( debuggingEnabled ) {
@@ -406,6 +408,7 @@
          storageObjects.Remove(p);
          delete p;
          p = NULL;
+         continue;
       }
       if ( NULL != pIPersistStorage && p -> pIPersistStorage == pIPersistStorage ) {
          p -> Release();
