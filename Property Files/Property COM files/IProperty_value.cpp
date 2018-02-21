@@ -65,7 +65,8 @@
 
    HRESULT Property::put_stringValue(BSTR bstrNewValue) {
 
-   if ( type == TYPE_UNSPECIFIED ) type = TYPE_STRING;
+   if ( type == TYPE_UNSPECIFIED )
+      type = TYPE_STRING;
 
    everAssigned = true;
 
