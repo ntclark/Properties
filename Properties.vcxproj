@@ -99,7 +99,6 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WIN32_DCOM;WIN32;USE_MODERN_PROPERTYSHEETS;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalOptions> /J</AdditionalOptions>
       <ForceConformanceInForLoopScope>false</ForceConformanceInForLoopScope>
@@ -139,7 +138,6 @@ regsvr32 /s /c "$(TargetPath)"</Command>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WIN32_DCOM;WIN32;USE_MODERN_PROPERTYSHEETS;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalOptions> /J</AdditionalOptions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -188,7 +186,6 @@ regsvr32 /s /c "$(TargetPath)"</Command>
       <PrecompiledHeaderOutputFile />
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -229,7 +226,6 @@ echo regsvr32 exec. time &gt; "$(OutDir)regsvr32.trg"
       </PrecompiledHeaderOutputFile>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

@@ -17,11 +17,9 @@ Full documentation on using the system is provided in the Documentation director
 
 ----
 
-Simply clone this repository to some drive, and also clone the Common repository to the same drive.
+Simply clone this repository somwhere on a drive, and also clone the Common repository as a sibling of this repository on the same drive
 
-Note that currently all of my repositories expect to be cloned into the root of a drive so that they are 1) siblings, and 2) interrelated artifacts are found at: \Common....
+I have added the "GSYSTEM_HOME" environment variable to allow you to specify where on the system these repositories are - note that this definition is in the "Compiler Options.props" file in the Common Repository.
 
-In the future, I might implement a simple environment variable so that you can clone these off of the root (though they would still have to be siblings), but for now, they need to be at the root of a drive.
-
-(So - you could SUBST a drive if you want to put them elsewhere)
+Detailed instructions for using the environment variable are given in the Common Repository.
 
