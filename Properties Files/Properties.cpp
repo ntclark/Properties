@@ -9,8 +9,8 @@
 
 #include "List.cpp"
 
-#pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' " \
-                        "version='6.0.0.0' processorArchitecture='x64' publicKeyToken='6595b64144ccf1df' language='*'\"")
+//#pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' " \
+//                        "version='6.0.0.0' processorArchitecture='x64' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
    WNDPROC Properties::nativePropertySheetHandler = NULL;
    static BYTE registrationMark[] = {0xFF,0xEF,0xEE,0xEE};

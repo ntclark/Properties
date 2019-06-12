@@ -261,6 +261,7 @@
       NMHDR *pNotifyHeader = (NMHDR *)lParam;
 
       switch ( pNotifyHeader -> code ) {
+
       case TVN_SELCHANGEDW: {
 
          NMTREEVIEW *pTreeView = (NMTREEVIEW *)lParam;

@@ -186,7 +186,6 @@
    HRESULT Property::toEncodedText(BSTR* pResult) {
    updateFromDirectAccess();
    switch ( type ) {
-//CHECKME   case TYPE_OBJECT_STORAGE_ARRAY:
    case TYPE_BINARY: {
 
       int n = 2 * v.binarySize;
@@ -289,7 +288,6 @@
 
    HRESULT Property::fromEncodedText(BSTR theText) {
    switch ( type ) {
-//CHECKME   case TYPE_OBJECT_STORAGE_ARRAY:
    case TYPE_BINARY: {
 
       int n = (int)wcslen(theText);
