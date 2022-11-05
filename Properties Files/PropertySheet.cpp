@@ -98,7 +98,7 @@
       WORD fontSize = 0;
       LOGFONTW logFont = {0};
 
-		if ( 0xFFFF == pTemplateEx -> signature ) {
+      if ( 0xFFFF == pTemplateEx -> signature ) {
 
          cxNativeClient = pTemplateEx -> cx;
          cyNativeClient = pTemplateEx -> cy;
@@ -122,13 +122,13 @@
          BYTE *pb = (BYTE *)pw;
 
          if ( DS_SETFONT & pTemplateEx -> style )
-	         pb += 3 * sizeof(WORD);
+            pb += 3 * sizeof(WORD);
 
          HDC hDC = ::GetDC(NULL);
 
-	      logFont.lfHeight = -MulDiv(fontSize, GetDeviceCaps(hDC, LOGPIXELSY), 72);
-	      logFont.lfWeight = FW_NORMAL;
-	      logFont.lfCharSet = DEFAULT_CHARSET;
+         logFont.lfHeight = -MulDiv(fontSize, GetDeviceCaps(hDC, LOGPIXELSY), 72);
+         logFont.lfWeight = FW_NORMAL;
+         logFont.lfCharSet = DEFAULT_CHARSET;
 
          wcscpy(logFont.lfFaceName,(WCHAR *)pb);
 
@@ -148,8 +148,8 @@
 
       }
 
-	   cxNativeClient = MulDiv(cxNativeClient, cxBaseUnits, 4);
-	   cyNativeClient = MulDiv(cyNativeClient, cyBaseUnits, 8);
+      cxNativeClient = MulDiv(cxNativeClient, cxBaseUnits, 4);
+      cyNativeClient = MulDiv(cyNativeClient, cyBaseUnits, 8);
 
       LONG_PTR rc = SendMessage(hwnd,PSM_SETCURSEL,(LPARAM)k,(LPARAM)0);
 

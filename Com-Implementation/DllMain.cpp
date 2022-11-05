@@ -1,6 +1,3 @@
-// Copyright 2018 InnoVisioNate Inc. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
 
 #include "Properties.h"
 
@@ -96,8 +93,8 @@
    char *OBJECT_NAME_V[] = {"InnoVisioNate.CVGProperties.1","InnoVisioNate.CVGProperty.1"};
    char *OBJECT_VERSION[] = {"1.0","1.0"};
    char *OBJECT_DESCRIPTION[] = {"InnoVisioNate CursiVision Properties Object","InnoVisioNate CursiVision Property Object"};
-   GUID OBJECT_CLSID[2];
-   GUID OBJECT_LIBID[2];
+   GUID OBJECT_CLSID[] = {CLSID_InnoVisioNateProperties,CLSID_InnoVisioNateProperty};
+   GUID OBJECT_LIBID[] = {LIBID_InnoVisioNateProperties,GUID_NULL};
 
    STDAPI DllRegisterServer() {
 
@@ -107,12 +104,6 @@
    DWORD disposition;
    char szTemp[256],szCLSID[256];
    LPOLESTR oleString;
-
-   memcpy(&OBJECT_CLSID[0],&CLSID_InnoVisioNateProperties,sizeof(GUID));
-   memcpy(&OBJECT_CLSID[1],&CLSID_InnoVisioNateProperty,sizeof(GUID));
-
-   memcpy(&OBJECT_LIBID[0],&LIBID_InnoVisioNateProperties,sizeof(GUID));
-   memcpy(&OBJECT_LIBID[1],&GUID_NULL,sizeof(GUID));
 
    if ( S_OK != LoadTypeLib(wstrModuleName,&ptLib) )
       rc = ResultFromScode(SELFREG_E_TYPELIB);

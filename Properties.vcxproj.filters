@@ -42,12 +42,6 @@
     <ClCompile Include="ObjectFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\source\registryUtils.cpp">
-      <Filter>Source Files\General Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\source\VariantUtils.cpp">
-      <Filter>Source Files\General Files</Filter>
-    </ClCompile>
     <ClCompile Include="Com-Implementation\Connection Points\IConnectionPoint.cpp">
       <Filter>Source Files\Com-Implementation\Connection Points</Filter>
     </ClCompile>
@@ -123,8 +117,14 @@
     <ClCompile Include="Property Files\Property_Variants.cpp">
       <Filter>Source Files\Property Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Utils\Utils.cpp">
-      <Filter>Source Files\General Files</Filter>
+    <ClCompile Include="$(GSYSTEM_HOME)\Common\source\registryUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(GSYSTEM_HOME)\Common\source\VariantUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(GSYSTEM_HOME)\Common\Utils\Utils.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
