@@ -272,9 +272,15 @@
 
          hwndPage = (HWND)SendMessage(hwnd,PSM_INDEXTOHWND,pTreeView -> itemNew.lParam,0L);
 
+         //NTC: 12-06-2022
+         // I am not sure why this was here but it was messing up my efforts to change the size
+         // of a property sheet dynamically.
+         // Consider a way to adjust "..ClientIdeal" if this is really necessary
+         //
+#if 0
          SetWindowPos(hwndPage,HWND_TOP,16 + TREEVIEW_WIDTH + 8,16,
                                     p -> cxClientIdeal[p -> propertyFrameInstanceCount],p -> cyClientIdeal[p -> propertyFrameInstanceCount],0L);
-
+#endif
          ShowWindow(hwndPage,SW_SHOW);
 
          }
