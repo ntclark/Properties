@@ -471,10 +471,10 @@ import "ocidl.idl";
       [ id(306),helpstring("Initiate the property page(s) for the object whose IUnknown is passed. Provide the text for the properties tab and the handle of the window which should be the owner of the properties window")]
       HRESULT EditProperties(HWND windowHandleOwner,BSTR Text,[in,defaultvalue(0)]IUnknown* ObjectWithProperties);
 
-      [ id(307),helpstring("Save the properties")]
+      [ id(307),helpstring("Save the properties on a stack")]
       HRESULT Push();
       
-      [ id(308),helpstring("Restore the properties")]
+      [ id(308),helpstring("Restore the properties from a stack")]
       HRESULT Pop();
 
       [ id(309),helpstring("Discards the top (last) level of the \"pushed\" (saved) properties.")]
@@ -486,8 +486,11 @@ import "ocidl.idl";
       [ id(311),helpstring("Connect the container's IPropertyNotifySink interface to the control so that Property Change notifications may occur")]
       HRESULT ConnectPropertyNotifySink(IPropertyNotifySink* pContainerPropertyNotifySink,DWORD * pdwCookie);
 
-      [ id(312),helpstring("If you have provided an IPropertyNotifySink pointer to the GSystem Properties Component, you should forward calls from your own implementation of IConnectionPointContainer to his method for the IPropertyNotifyClient interface")]
+      [ id(312),helpstring("If you have provided an IPropertyNotifySink pointer to the GSystem Properties Component, you should forward calls from your own implementation of IConnectionPointContainer to this method for the IPropertyNotifyClient interface")]
       HRESULT FindConnectionPoint(REFIID riid,IConnectionPoint **);
+
+      [ id(313),propput,helpstring("Allow or disallow the SYSMENU in the titlebar. This is the \"X\" in the title bar that can be used to close (cancel) the property sheet. Disallow it to deter confusion why properties aren't saved when the user clicks on \"X\". Default is Disallowed")]
+      HRESULT AllowSysMenu([in] boolean doAllow);
 
       // Window contents support
 

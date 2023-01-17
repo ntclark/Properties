@@ -1,6 +1,3 @@
-// Copyright 2018 InnoVisioNate Inc. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
 
 #include "Properties.h"
 
@@ -53,8 +50,11 @@
 
    int CALLBACK Properties::preparePropertySheet(HWND hwnd,UINT uMsg,LPARAM lParam) {
 
-   if ( ! ( PSCB_INITIALIZED == uMsg ) )
+   if ( PSCB_PRECREATE == uMsg && ! pThis -> allowSysMenu ) {
+      DLGTEMPLATE  *pTemplate = (LPDLGTEMPLATE)lParam;
+      pTemplate -> style &= ~WS_SYSMENU;
       return 0;
+   }
 
    SetWindowLongPtr(hwnd,GWLP_USERDATA,(LONG_PTR)(void *)pThis);
 

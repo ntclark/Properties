@@ -157,6 +157,7 @@
          STDMETHOD(Compare)(VARIANT_BOOL*);
          STDMETHOD(ConnectPropertyNotifySink)(IPropertyNotifySink* pContainerPropertyNotifySink,DWORD * pdwCookie);
          STDMETHOD(FindConnectionPoint)(REFIID riid,IConnectionPoint **);
+         STDMETHOD(put_AllowSysMenu)(boolean allowSysMenu);
 
       // Window contents support
 
@@ -330,7 +331,6 @@
  
       } * pIPersistPropertyBag;
 
-
       class _IPersistPropertyBag2 : public IPersistPropertyBag2 {
       public:
 
@@ -411,7 +411,6 @@
          Properties* pParent;
  
       } connectionPointContainer;
-
 
       struct _IConnectionPoint : IConnectionPoint {
       public:
@@ -494,7 +493,6 @@
  
       } *enumConnections;
 
-
       STDMETHOD(internalLoad)(IStream* pIStream,IStorage* pIStorage);
       STDMETHOD(internalSave)(IStream* pIStream,IStorage* pIStorage);
       STDMETHOD(internalInitNew)(IStorage* pIStorage);
@@ -528,6 +526,7 @@
 
       List<IGProperty> propertiesToRelease;
 
+      short allowSysMenu;
       short bPreviouslyGotStream;
       short supportIPersistStorage;
       short supportIPersistStream;

@@ -1,16 +1,10 @@
-// Copyright 2018 InnoVisioNate Inc. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
 
 #include "Properties.h"
 
 #include "resource.h"
 #include "utils.h"
-
 #include "List.cpp"
 
-//#pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' " \
-//                        "version='6.0.0.0' processorArchitecture='x64' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
    WNDPROC Properties::nativePropertySheetHandler = NULL;
    static BYTE registrationMark[] = {0xFF,0xEF,0xEE,0xEE};
@@ -45,14 +39,10 @@
 
      hwndPropertySheet(NULL),
      pPropertySheetPages(NULL),
-#if 0
-     cxClientIdeal(0L),
-     cyClientIdeal(0L),
-     cxSheetIdeal(0L),
-     cySheetIdeal(0L),
-#endif
+
      propertyFrameInstanceCount(0L),
 
+     allowSysMenu(false),
      supportIPersistStorage(false),
      supportIPersistStream(true),
      temporaryFileInUse(false),

@@ -1,6 +1,3 @@
-// Copyright 2018 InnoVisioNate Inc. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
 
 #include "Properties.h"
 
@@ -44,7 +41,6 @@
    if ( usePropertySheets ) {
       IGPropertyPageClient* pIPropertyPageClient;
       HRESULT hr = pIUnknown -> QueryInterface(IID_IGPropertyPageClient,reinterpret_cast<void**>(&pIPropertyPageClient));
-//      pParent -> propertyPageClients.insert(pParent -> propertyPageClients.end(),pIPropertyPageClient);
       pParent->propertyPageClients.remove(pIPropertyPageClient);
       pIPropertyPageClient -> Release();
       return S_OK;
@@ -314,6 +310,13 @@
    STDMETHODIMP Properties::_IProperties::FindConnectionPoint(REFIID riid,IConnectionPoint **ppCP) {
    return pParent -> connectionPointContainer.FindConnectionPoint(riid,ppCP);
    }
+
+
+   STDMETHODIMP Properties::_IProperties::put_AllowSysMenu(boolean doAllow) {
+   pParent -> allowSysMenu = doAllow;
+   return S_OK;
+   }
+
 
    HRESULT Properties::_IProperties::PutHWNDPropertyPage(BSTR displayName,HWND lhwndProp,HWND lhwndStart,HWND lhwndOK,HWND lhwndApply,HWND lhwndCancel) {
    return E_NOTIMPL;
