@@ -127,7 +127,7 @@
     </Bscmake>
     <PostBuildEvent>
       <Command>
-regsvr32 /s /c "$(TargetPath)"</Command>
+regsvr32  /s /c "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

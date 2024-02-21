@@ -168,14 +168,18 @@
    else
       SetWindowLongPtr(hwnd,GWLP_WNDPROC,(ULONG_PTR)propertySheetHandler);
 
-   pThis -> cxSheetIdeal[pThis -> propertyFrameInstanceCount] = pThis -> cxClientIdeal[pThis -> propertyFrameInstanceCount] + 16 + TREEVIEW_WIDTH + 8;
-   pThis -> cySheetIdeal[pThis -> propertyFrameInstanceCount] = pThis -> cyClientIdeal[pThis -> propertyFrameInstanceCount] + 16 + 16 + 16 + 8;
+   pThis -> cxSheetIdeal[pThis -> propertyFrameInstanceCount] = pThis -> cxClientIdeal[pThis -> propertyFrameInstanceCount] + TREEVIEW_WIDTH + 24 + 16;
+   pThis -> cySheetIdeal[pThis -> propertyFrameInstanceCount] = pThis -> cyClientIdeal[pThis -> propertyFrameInstanceCount] + 56;
 
-   pThis -> cxSheetIdeal[pThis -> propertyFrameInstanceCount] += 16;
+   RECT rcButton;
+   GetWindowRect(GetDlgItem(hwnd,IDOK),&rcButton);
 
-   SetWindowPos(hwnd,HWND_TOP,0,0,pThis -> cxSheetIdeal[pThis -> propertyFrameInstanceCount],pThis -> cySheetIdeal[pThis -> propertyFrameInstanceCount] + 12,SWP_NOMOVE);
+   pThis -> cxSheetIdeal[pThis -> propertyFrameInstanceCount] += 24;
+   pThis -> cySheetIdeal[pThis -> propertyFrameInstanceCount] += rcButton.bottom - rcButton.top + 16;
 
-   long xIdeal = 16 + TREEVIEW_WIDTH + 8;
+   SetWindowPos(hwnd,HWND_TOP,0,0,pThis -> cxSheetIdeal[pThis -> propertyFrameInstanceCount],pThis -> cySheetIdeal[pThis -> propertyFrameInstanceCount],SWP_NOMOVE);
+
+   long xIdeal = TREEVIEW_WIDTH + 24;
    long yIdeal = 16;
 
    LONG_PTR style = GetWindowLongPtr(hwndTabControl,GWL_STYLE);
@@ -216,7 +220,7 @@
 
       for ( unsigned long k = 0; k < p -> propertySheetHeader.nPages; k++ ) {
          HWND hwndPage = (HWND)SendMessage(hwnd,PSM_INDEXTOHWND,(LPARAM)k,0L);
-         SetWindowPos(hwndPage,HWND_TOP,16 + TREEVIEW_WIDTH + 8,16,
+         SetWindowPos(hwndPage,HWND_TOP,TREEVIEW_WIDTH + 24,16,
                               p -> cxClientIdeal[p -> propertyFrameInstanceCount],p -> cyClientIdeal[p -> propertyFrameInstanceCount],SWP_NOACTIVATE);
       }
 
@@ -277,7 +281,8 @@
          // of a property sheet dynamically.
          // Consider a way to adjust "..ClientIdeal" if this is really necessary
          //
-#if 0
+#if 1
+        SetWindowPos(hwnd,HWND_TOP,0,0,p -> cxSheetIdeal[p -> propertyFrameInstanceCount],p -> cySheetIdeal[p -> propertyFrameInstanceCount],SWP_NOMOVE);
          SetWindowPos(hwndPage,HWND_TOP,16 + TREEVIEW_WIDTH + 8,16,
                                     p -> cxClientIdeal[p -> propertyFrameInstanceCount],p -> cyClientIdeal[p -> propertyFrameInstanceCount],0L);
 #endif

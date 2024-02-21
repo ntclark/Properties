@@ -40,7 +40,7 @@
      hwndPropertySheet(NULL),
      pPropertySheetPages(NULL),
 
-     propertyFrameInstanceCount(0L),
+     propertyFrameInstanceCount(-1L),
 
      allowSysMenu(false),
      supportIPersistStorage(false),
