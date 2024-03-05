@@ -318,6 +318,26 @@
    }
 
 
+   STDMETHODIMP Properties::_IProperties::put_FrameSize(SIZEL frameSize) {
+   pParent -> cxSheetIdeal[pParent -> propertyFrameInstanceCount] = max(pParent -> cxSheetIdeal[pParent -> propertyFrameInstanceCount],frameSize.cx);
+   pParent -> cySheetIdeal[pParent -> propertyFrameInstanceCount] = max(pParent -> cySheetIdeal[pParent -> propertyFrameInstanceCount],frameSize.cy);
+   SetWindowPos(pParent -> hwndPropertySheet,HWND_TOP,0,0,pParent -> cxSheetIdeal[pParent -> propertyFrameInstanceCount],pParent -> cySheetIdeal[pParent -> propertyFrameInstanceCount],SWP_NOMOVE);
+   return S_OK;
+   }
+
+
+   STDMETHODIMP Properties::_IProperties::put_PageSize(SIZEL frameSize) {
+   pParent -> cxClientIdeal[pParent -> propertyFrameInstanceCount] = max(pParent -> cxClientIdeal[pParent -> propertyFrameInstanceCount],frameSize.cx);
+   pParent -> cyClientIdeal[pParent -> propertyFrameInstanceCount] = max(pParent -> cyClientIdeal[pParent -> propertyFrameInstanceCount],frameSize.cy);
+   for ( unsigned long k = 0; k < pParent -> propertySheetHeader.nPages; k++ ) {
+      HWND hwndPage = (HWND)SendMessage(pParent -> hwndPropertySheet,PSM_INDEXTOHWND,(LPARAM)k,0L);
+      SetWindowPos(hwndPage,HWND_TOP,TREEVIEW_WIDTH + 24,16,
+                            pParent -> cxClientIdeal[pParent -> propertyFrameInstanceCount],pParent -> cyClientIdeal[pParent -> propertyFrameInstanceCount],SWP_NOACTIVATE);
+   }
+   return S_OK;
+   }
+
+
    HRESULT Properties::_IProperties::PutHWNDPropertyPage(BSTR displayName,HWND lhwndProp,HWND lhwndStart,HWND lhwndOK,HWND lhwndApply,HWND lhwndCancel) {
    return E_NOTIMPL;
    }

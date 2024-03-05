@@ -158,6 +158,8 @@
          STDMETHOD(ConnectPropertyNotifySink)(IPropertyNotifySink* pContainerPropertyNotifySink,DWORD * pdwCookie);
          STDMETHOD(FindConnectionPoint)(REFIID riid,IConnectionPoint **);
          STDMETHOD(put_AllowSysMenu)(boolean allowSysMenu);
+         STDMETHOD(put_FrameSize)(SIZEL frameSize);
+         STDMETHOD(put_PageSize)(SIZEL frameSize);
 
       // Window contents support
 
