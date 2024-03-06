@@ -492,12 +492,6 @@ import "ocidl.idl";
       [ id(313),propput,helpstring("Allow or disallow the SYSMENU in the titlebar. This is the \"X\" in the title bar that can be used to close (cancel) the property sheet. Disallow it to deter confusion why properties aren't saved when the user clicks on \"X\". Default is Disallowed")]
       HRESULT AllowSysMenu([in] boolean doAllow);
 
-      [ id(314),propput,helpstring("Set the size of the property page FRAME hosting the property page(s). For when a particular page in the set wants to dictate a custom size (and it should also call PageSize()")]
-      HRESULT FrameSize([in] SIZEL sizelFrame);
-
-      [ id(315),propput,helpstring("Set the size of the property page(s) in the frame. For when a particular page in the set of pages wants to dictate a custom size (and it should have also called FrameSize()")]
-      HRESULT PageSize([in] SIZEL sizelFrame);
-
       // Window contents support
 
       [ id(401),helpstring("Set the value based on the text in a control")]
@@ -610,6 +604,15 @@ import "ocidl.idl";
    
       [ id(460),helpstring("Get the ID of a windows control, typically, the command ID")]
       HRESULT GetWindowID([in] HWND hwnd,[out,retval] long* commandID);
+
+
+      // Additional Propery Page Support
+
+      [ id(314),propput,helpstring("Set the size of the property page FRAME hosting the property page(s). For when a particular page in the set wants to dictate a custom size (and it should also call PageSize()")]
+      HRESULT FrameSize([in] SIZEL sizelFrame);
+
+      [ id(315),propput,helpstring("Set the size of the property page(s) in the frame. For when a particular page in the set of pages wants to dictate a custom size (and it should have also called FrameSize()")]
+      HRESULT PageSize([in] SIZEL sizelFrame);
 
    };
 

@@ -1,6 +1,3 @@
-// Copyright 2018 InnoVisioNate Inc. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
 
 #pragma once
 
@@ -158,8 +155,6 @@
          STDMETHOD(ConnectPropertyNotifySink)(IPropertyNotifySink* pContainerPropertyNotifySink,DWORD * pdwCookie);
          STDMETHOD(FindConnectionPoint)(REFIID riid,IConnectionPoint **);
          STDMETHOD(put_AllowSysMenu)(boolean allowSysMenu);
-         STDMETHOD(put_FrameSize)(SIZEL frameSize);
-         STDMETHOD(put_PageSize)(SIZEL frameSize);
 
       // Window contents support
 
@@ -208,7 +203,11 @@
 
          // Other windows API support
          STDMETHOD(GetWindowID)(HWND hwndControl,long* theID);
- 
+
+         // Additional Property Page Support
+         STDMETHOD(put_FrameSize)(SIZEL frameSize);
+         STDMETHOD(put_PageSize)(SIZEL frameSize);
+
        private:
 
          Properties* pParent;
