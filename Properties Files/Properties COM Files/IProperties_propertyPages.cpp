@@ -338,6 +338,11 @@
    }
 
 
+   STDMETHODIMP Properties::_IProperties::put_ResourcesModule(HMODULE hMod) {
+   Properties::hModuleResources = hMod;
+   return S_OK;
+   }
+
    HRESULT Properties::_IProperties::PutHWNDPropertyPage(BSTR displayName,HWND lhwndProp,HWND lhwndStart,HWND lhwndOK,HWND lhwndApply,HWND lhwndCancel) {
    return E_NOTIMPL;
    }

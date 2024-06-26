@@ -208,6 +208,8 @@
          STDMETHOD(put_FrameSize)(SIZEL frameSize);
          STDMETHOD(put_PageSize)(SIZEL frameSize);
 
+         STDMETHOD(put_ResourcesModule)(HMODULE hModuleResources);
+
        private:
 
          Properties* pParent;
@@ -567,6 +569,8 @@
       long cxClientIdeal[16],cyClientIdeal[16];
       long cxSheetIdeal[16],cySheetIdeal[16];
       long propertyFrameInstanceCount;
+
+      static HMODULE hModuleResources;
 
       static Properties* pCurrent_IO_Object;
 

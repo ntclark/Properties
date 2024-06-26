@@ -606,13 +606,16 @@ import "ocidl.idl";
       HRESULT GetWindowID([in] HWND hwnd,[out,retval] long* commandID);
 
 
-      // Additional Propery Page Support
+      // Additional Property Page Support
 
       [ id(314),propput,helpstring("Set the size of the property page FRAME hosting the property page(s). For when a particular page in the set wants to dictate a custom size (and it should also call PageSize()")]
       HRESULT FrameSize([in] SIZEL sizelFrame);
 
       [ id(315),propput,helpstring("Set the size of the property page(s) in the frame. For when a particular page in the set of pages wants to dictate a custom size (and it should have also called FrameSize()")]
       HRESULT PageSize([in] SIZEL sizelFrame);
+
+      [ id(316),propput,helpstring("Provide the module handle to a languages dll, which should contain strings for IDOK, and IDCANCEL")]
+      HRESULT ResourcesModule([in] HMODULE hModuleResources);
 
    };
 

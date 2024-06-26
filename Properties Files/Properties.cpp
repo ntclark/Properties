@@ -7,6 +7,8 @@
 
 
    WNDPROC Properties::nativePropertySheetHandler = NULL;
+   HMODULE Properties::hModuleResources = NULL;
+
    static BYTE registrationMark[] = {0xFF,0xEF,0xEE,0xEE};
    static BYTE notSavedIndicator[] = {0xEE,0xFE,0xEF,0xFF};
 

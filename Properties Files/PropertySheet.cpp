@@ -61,9 +61,17 @@
     HWND hwndTreeView = CreateWindowEx(WS_EX_CLIENTEDGE,WC_TREEVIEWA,"",
                                             WS_CHILD | WS_VISIBLE | TVS_SHOWSELALWAYS,16,16,TREEVIEW_WIDTH,32,hwnd,(HMENU)IDDI_PROPERTY_SHEET_TREEVIEW,gsProperties_hModule,0L);
 
-    CreateWindowEx(0L,"BUTTON","Ok",WS_CHILD | WS_VISIBLE,16,16,TREEVIEW_WIDTH,32,hwnd,(HMENU)IDDI_PROPERTY_SHEET_OK,gsProperties_hModule,0L);
+    char szOk[32]  = {"Ok"};
+    char szCancel[32] = {"Cancel"};
 
-    CreateWindowEx(0L,"BUTTON","Cancel",WS_CHILD | WS_VISIBLE,16,16,TREEVIEW_WIDTH,32,hwnd,(HMENU)IDDI_PROPERTY_SHEET_CANCEL,gsProperties_hModule,0L);
+    if ( ! ( NULL == Properties::hModuleResources ) ) {
+        LoadString(Properties::hModuleResources,IDOK,szOk,32);
+        LoadString(Properties::hModuleResources,IDCANCEL,szCancel,32);
+    }
+
+    CreateWindowEx(0L,"BUTTON",szOk,WS_CHILD | WS_VISIBLE,16,16,TREEVIEW_WIDTH,32,hwnd,(HMENU)IDDI_PROPERTY_SHEET_OK,gsProperties_hModule,0L);
+
+    CreateWindowEx(0L,"BUTTON",szCancel,WS_CHILD | WS_VISIBLE,16,16,TREEVIEW_WIDTH,32,hwnd,(HMENU)IDDI_PROPERTY_SHEET_CANCEL,gsProperties_hModule,0L);
 
     HFONT hGUIFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 
