@@ -44,6 +44,7 @@
    case VT_UNKNOWN:
    case VT_DISPATCH:
       break;
+   case VT_PTR:
    case VT_BYREF | VT_UI1:
       return put_binaryValue(v.binarySize,newValue.pbVal);
    }
