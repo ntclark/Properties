@@ -5,7 +5,7 @@ import "ocidl.idl";
 
 [ uuid(9CAEFD89-55E6-11d3-8365-006008BD5BC3),
   helpfile(""),
-  helpstring("InnoVisioNate Properties Component"), 
+  helpstring("EnVisioNate Properties Component"), 
   lcid(0x0), 
   version(1.0)
 
@@ -54,7 +54,7 @@ import "ocidl.idl";
            ARRAY_INDEX_LAST = -1 };
 
    [ uuid(9CAEFD8D-55E6-11d3-8365-006008BD5BC3),
-      helpstring("InnoVisioNate Property Automation Interface"),
+      helpstring("EnVisioNate Property Automation Interface"),
       nonextensible,pointer_default(unique)] 
 
    interface IGProperty : IDispatch {
@@ -325,7 +325,7 @@ import "ocidl.idl";
    };
 
    [uuid(9CAEFD8A-55E6-11d3-8365-006008BD5BC3),
-   helpstring("InnoVisioNate Properties Interface")] 
+   helpstring("EnVisioNate Properties Interface")] 
    interface IGProperties : IDispatch {
 
    // General attributes
@@ -689,7 +689,7 @@ import "ocidl.idl";
    };
 
    [uuid(9CAEFD8C-55E7-11d3-8365-006008BD5BC3),
-      helpstring("InnoVisioNate Property Object")]
+      helpstring("EnVisioNate Property Object")]
 
     coclass InnoVisioNateProperty {
       [default] interface IGProperty;
@@ -697,7 +697,7 @@ import "ocidl.idl";
 
 
    [uuid(9CAEFD89-55E7-11d3-8365-006008BD5BC3),
-   helpstring("InnoVisioNate Properties Control Class")]
+   helpstring("EnVisioNate Properties Control Class")]
 
    coclass InnoVisioNateProperties {
       [default] interface IGProperties;

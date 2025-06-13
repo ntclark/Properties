@@ -1,5 +1,5 @@
 
-# The InnoVisioNate Properties Component
+# The EnVisioNate Properties Component
 ----
 This component manages the storage (persistence) and property pages implementation for any property in your system.
 

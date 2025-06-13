@@ -92,7 +92,7 @@
    char *OBJECT_NAME[] = {"InnoVisioNate.CVGProperties","InnoVisioNate.CVGProperty"};
    char *OBJECT_NAME_V[] = {"InnoVisioNate.CVGProperties.1","InnoVisioNate.CVGProperty.1"};
    char *OBJECT_VERSION[] = {"1.0","1.0"};
-   char *OBJECT_DESCRIPTION[] = {"InnoVisioNate CursiVision Properties Object","InnoVisioNate CursiVision Property Object"};
+   char *OBJECT_DESCRIPTION[] = {"EnVisioNate CursiVision Properties Object","EnVisioNate CursiVision Property Object"};
    GUID OBJECT_CLSID[] = {CLSID_InnoVisioNateProperties,CLSID_InnoVisioNateProperty};
    GUID OBJECT_LIBID[] = {LIBID_InnoVisioNateProperties,GUID_NULL};
 
