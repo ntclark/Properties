@@ -61,7 +61,7 @@
       STDMETHOD_ (ULONG,InternalAddRef)();
       STDMETHOD_ (ULONG,InternalRelease)();
 
-      void ModernPropertySheet(PROPSHEETHEADER *);
+      void ModernPropertySheet(PROPSHEETHEADER *,IGPropertyPageClient *pClient);
 
       class XNDUnknown : public IUnknown {
          Properties* This() { return (Properties*)((BYTE*)this - offsetof(Properties,innerUnknown)); }
@@ -552,8 +552,16 @@
       unstable PropertyPages.ocx implementation
       */
 
-      IGPropertyPageClient *pMasterPropertyPageClient;
+      IGPropertyPageClient *pMasterPropertyPageClient{NULL};
       std::list<IGPropertyPageClient *> propertyPageClients;
+
+      // 10/25/2025 This property page client is used to notify the current client of the
+      // handles of the dialogs created. This is as opposed to the master, or the ones
+      // in the "list", which I'm not sure I understand at this point.
+      IGPropertyPageClient *pCurrentPropertyPageClient{NULL};
+      SAFEARRAY *pDialogHandles{NULL};
+      UINT_PTR *pDialogHandleEntries{NULL};
+      long countDialogs{0L};
 
       List<BYTE*> pushStackList;
 
@@ -569,6 +577,7 @@
       long cxClientIdeal[16],cyClientIdeal[16];
       long cxSheetIdeal[16],cySheetIdeal[16];
       long propertyFrameInstanceCount;
+      long countInFrame[16]{16*0L};;
 
       static HMODULE hModuleResources;
 

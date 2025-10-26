@@ -82,11 +82,11 @@
       propSheetHeader.nPages = countPages;
       propSheetHeader.nStartPage = 0;
 
-      pParent -> ModernPropertySheet(&propSheetHeader);
-
-      delete [] pPropSheetPages;
+      pParent -> ModernPropertySheet(&propSheetHeader,pIPropertyPageClient);
 
       pIPropertyPageClient -> Release();
+
+      delete [] pPropSheetPages;
 
       return S_OK;
 
@@ -162,7 +162,7 @@
 
    propSheetHeader.nStartPage = 0;
 
-   pParent -> ModernPropertySheet(&propSheetHeader);
+   pParent -> ModernPropertySheet(&propSheetHeader,pIPropertyPageClient);
 
    delete [] pPropSheetPages;
 

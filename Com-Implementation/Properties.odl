@@ -686,6 +686,9 @@ import "ocidl.idl";
       [ helpstring("Load the PROPSHEETPAGE structures")]
       HRESULT GetPropertySheets(void *pSheets);
 
+      [ helpstring("Provide the property sheet handle(s) to the client")]
+      HRESULT TakePropertySheetDialogs(SAFEARRAY *pDialogHandles);
+
    };
 
    [uuid(9CAEFD8C-55E7-11d3-8365-006008BD5BC3),

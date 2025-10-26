@@ -3,7 +3,7 @@
 
     Properties *pThis = NULL;
 
-    void Properties::ModernPropertySheet(PROPSHEETHEADER *pSH) {
+    void Properties::ModernPropertySheet(PROPSHEETHEADER *pSH,IGPropertyPageClient *pIPropertyPageClient) {
 
 #ifndef USE_MODERN_PROPERTYSHEETS
     PropertySheet(pSH);
@@ -36,7 +36,27 @@
 
     propertyFrameInstanceCount++;
 
+    countInFrame[propertyFrameInstanceCount - 1] = 0L;
+
+    pCurrentPropertyPageClient = pIPropertyPageClient;
+
+    if ( ! ( NULL == pCurrentPropertyPageClient ) ) {
+        SAFEARRAYBOUND rgsaBound;
+        rgsaBound.lLbound = 0;
+        rgsaBound.cElements = (DWORD)propertySheetHeader.nPages;
+        pDialogHandles = SafeArrayCreate(VT_UINT_PTR,1,&rgsaBound);
+        SafeArrayAccessData(pDialogHandles,reinterpret_cast<void**>(&pDialogHandleEntries));
+    }
+
     hwndPropertySheet = (HWND)PropertySheet(&propertySheetHeader);
+
+    if ( ! ( NULL == pCurrentPropertyPageClient ) ) {
+        SafeArrayUnaccessData(pDialogHandles);
+        SafeArrayDestroy(pDialogHandles);
+        pDialogHandles = NULL;
+    }
+
+    pCurrentPropertyPageClient = NULL;
 
     propertyFrameInstanceCount--;
 
@@ -55,6 +75,9 @@
         pTemplate -> style &= ~WS_SYSMENU;
         return 0;
     }
+
+    if ( PSCB_PRECREATE == uMsg )
+        return 0;
 
     SetWindowLongPtr(hwnd,GWLP_USERDATA,(LONG_PTR)(void *)pThis);
 
@@ -163,10 +186,13 @@
 
         HWND hwndPage = (HWND)SendMessage(hwnd,PSM_INDEXTOHWND,(LPARAM)k,0L);
 
+        if ( ! ( NULL == pThis -> pCurrentPropertyPageClient ) ) 
+            *(pThis -> pDialogHandleEntries + k) = (UINT_PTR)hwndPage;
+
         SetWindowLongPtr(hwndPage,GWL_EXSTYLE,GetWindowLongPtr(hwndPage,GWL_EXSTYLE) | WS_EX_CLIENTEDGE);
 
+        pThis -> countInFrame[pThis -> propertyFrameInstanceCount - 1]++;
         pThis -> cxClientIdeal[pThis -> propertyFrameInstanceCount] = max(pThis -> cxClientIdeal[pThis -> propertyFrameInstanceCount],cxNativeClient);
-
         pThis -> cyClientIdeal[pThis -> propertyFrameInstanceCount] = max(pThis -> cyClientIdeal[pThis -> propertyFrameInstanceCount],cyNativeClient);
 
     }
@@ -211,6 +237,9 @@
     HTREEITEM hTreeItem = (HTREEITEM)SendMessage(hwndTreeView,TVM_GETNEXTITEM,(WPARAM)TVGN_ROOT,(LPARAM)NULL);
 
     PostMessage(hwndTreeView,TVM_SELECTITEM,(WPARAM)TVGN_CARET,(LPARAM)hTreeItem);
+
+    if ( ! ( NULL == pThis -> pCurrentPropertyPageClient ) ) 
+      pThis -> pCurrentPropertyPageClient -> TakePropertySheetDialogs(pThis -> pDialogHandles);
 
     return 0L;
     }
