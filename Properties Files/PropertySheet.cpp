@@ -82,7 +82,7 @@
     SetWindowLongPtr(hwnd,GWLP_USERDATA,(LONG_PTR)(void *)pThis);
 
     HWND hwndTreeView = CreateWindowEx(WS_EX_CLIENTEDGE,WC_TREEVIEWA,"",
-                                            WS_CHILD | WS_VISIBLE | TVS_SHOWSELALWAYS,16,16,TREEVIEW_WIDTH,32,hwnd,(HMENU)IDDI_PROPERTY_SHEET_TREEVIEW,gsProperties_hModule,0L);
+                                            WS_CHILD | WS_VISIBLE | TVS_SHOWSELALWAYS,16,16,TREEVIEW_WIDTH,32,hwnd,(HMENU)IDDI_PROPERTY_SHEET_TREEVIEW,gsProperties_hModule,pThis);
 
     char szOk[32]  = {"Ok"};
     char szCancel[32] = {"Cancel"};
@@ -93,13 +93,11 @@
     }
 
     CreateWindowEx(0L,"BUTTON",szOk,WS_CHILD | WS_VISIBLE,16,16,TREEVIEW_WIDTH,32,hwnd,(HMENU)IDDI_PROPERTY_SHEET_OK,gsProperties_hModule,0L);
-
     CreateWindowEx(0L,"BUTTON",szCancel,WS_CHILD | WS_VISIBLE,16,16,TREEVIEW_WIDTH,32,hwnd,(HMENU)IDDI_PROPERTY_SHEET_CANCEL,gsProperties_hModule,0L);
 
     HFONT hGUIFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 
     SendMessage(GetDlgItem(hwnd,IDDI_PROPERTY_SHEET_OK),WM_SETFONT,(WPARAM)hGUIFont,(LPARAM)TRUE);
-
     SendMessage(GetDlgItem(hwnd,IDDI_PROPERTY_SHEET_CANCEL),WM_SETFONT,(WPARAM)hGUIFont,(LPARAM)TRUE);
 
     pThis -> cxClientIdeal[pThis -> propertyFrameInstanceCount] = 0L;
@@ -283,8 +281,25 @@
 
     case WM_COMMAND: {
         switch ( wParam ) {
-        case IDDI_PROPERTY_SHEET_OK:
-            SendMessage(hwnd,PSM_PRESSBUTTON,(WPARAM)PSBTN_OK,0L);
+        case IDDI_PROPERTY_SHEET_OK: {
+            boolean isValid = true;
+            PSHNOTIFY nmHeader{0};
+            nmHeader.hdr.code = PSN_APPLY;
+            nmHeader.lParam = 1L;//GetWindowLongPtr(hwndPage,GWLP_ID);
+            for ( long k = 0; 1; k++ ) {
+                HWND hwndPage = (HWND)SendMessage(hwnd,PSM_INDEXTOHWND,(LPARAM)k,0L);
+                if ( NULL == hwndPage )
+                    break;
+                SendMessage((HWND)hwndPage,WM_NOTIFY,0L,(LPARAM)&nmHeader);
+                DWORD dlgResult = GetWindowLongPtr(hwndPage,DWLP_MSGRESULT);
+                if ( PSNRET_INVALID == dlgResult ) {
+                    isValid = false;
+                    break;
+                }
+            }
+            if ( isValid )
+                SendMessage(hwnd,PSM_PRESSBUTTON,(WPARAM)PSBTN_OK,0L);
+            }
             break;
         case IDDI_PROPERTY_SHEET_CANCEL:
             SendMessage(hwnd,PSM_PRESSBUTTON,(WPARAM)PSBTN_CANCEL,0L);
