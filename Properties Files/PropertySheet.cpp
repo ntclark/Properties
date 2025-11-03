@@ -285,20 +285,20 @@
             boolean isValid = true;
             PSHNOTIFY nmHeader{0};
             nmHeader.hdr.code = PSN_APPLY;
-            nmHeader.lParam = 1L;//GetWindowLongPtr(hwndPage,GWLP_ID);
+            nmHeader.lParam = 1L;
             for ( long k = 0; 1; k++ ) {
                 HWND hwndPage = (HWND)SendMessage(hwnd,PSM_INDEXTOHWND,(LPARAM)k,0L);
                 if ( NULL == hwndPage )
                     break;
                 SendMessage((HWND)hwndPage,WM_NOTIFY,0L,(LPARAM)&nmHeader);
-                DWORD dlgResult = GetWindowLongPtr(hwndPage,DWLP_MSGRESULT);
+                DWORD dlgResult = (DWORD)GetWindowLongPtr(hwndPage,DWLP_MSGRESULT);
                 if ( PSNRET_INVALID == dlgResult ) {
                     isValid = false;
                     break;
                 }
             }
             if ( isValid )
-                SendMessage(hwnd,PSM_PRESSBUTTON,(WPARAM)PSBTN_OK,0L);
+                SendMessage(hwnd,PSM_PRESSBUTTON,(WPARAM)PSBTN_FINISH,0L);
             }
             break;
         case IDDI_PROPERTY_SHEET_CANCEL:
