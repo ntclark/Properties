@@ -121,16 +121,15 @@
 
         long cxNativeClient = pTemplate -> cx;
         long cyNativeClient = pTemplate -> cy;
-        long cxBaseUnits = LOWORD(GetDialogBaseUnits());
-        long cyBaseUnits = HIWORD(GetDialogBaseUnits());
-
-        WORD fontSize = 0;
-        LOGFONTW logFont = {0};
 
         if ( 0xFFFF == pTemplateEx -> signature ) {
-
             cxNativeClient = pTemplateEx -> cx;
             cyNativeClient = pTemplateEx -> cy;
+#if 0
+            long cxBaseUnits = LOWORD(GetDialogBaseUnits());
+            long cyBaseUnits = HIWORD(GetDialogBaseUnits());
+            WORD fontSize = 0;
+            LOGFONTW logFont = {0};
 
             WORD *pw = (WORD *)(pTemplateEx + 1);
 
@@ -174,11 +173,13 @@
                 SelectObject(hDC, hFontOld);
                 DeleteObject(hNewFont);
             }
-
+#endif
+        } else {
+            long cxBaseUnits = LOWORD(GetDialogBaseUnits());
+            long cyBaseUnits = HIWORD(GetDialogBaseUnits());
+            cxNativeClient = MulDiv(cxNativeClient, cxBaseUnits, 4);
+            cyNativeClient = MulDiv(cyNativeClient, cyBaseUnits, 8);
         }
-
-        cxNativeClient = MulDiv(cxNativeClient, cxBaseUnits, 4);
-        cyNativeClient = MulDiv(cyNativeClient, cyBaseUnits, 8);
 
         LONG_PTR rc = SendMessage(hwnd,PSM_SETCURSEL,(LPARAM)k,(LPARAM)0);
 
@@ -209,7 +210,7 @@
     pThis -> cxSheetIdeal[pThis -> propertyFrameInstanceCount] += 24;
     pThis -> cySheetIdeal[pThis -> propertyFrameInstanceCount] += rcButton.bottom - rcButton.top + 16;
 
-    SetWindowPos(hwnd,HWND_TOP,0,0,pThis -> cxSheetIdeal[pThis -> propertyFrameInstanceCount],pThis -> cySheetIdeal[pThis -> propertyFrameInstanceCount],SWP_NOMOVE);
+    //SetWindowPos(hwnd,HWND_TOP,0,0,pThis -> cxSheetIdeal[pThis -> propertyFrameInstanceCount],pThis -> cySheetIdeal[pThis -> propertyFrameInstanceCount],SWP_NOMOVE);
 
     long xIdeal = TREEVIEW_WIDTH + 24;
     long yIdeal = 16;
