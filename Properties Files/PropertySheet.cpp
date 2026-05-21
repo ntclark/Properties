@@ -181,6 +181,15 @@
             cyNativeClient = MulDiv(cyNativeClient, cyBaseUnits, 8);
         }
 
+
+        /*
+            comctl32.dll throwing an exception here !?!?!
+            Who the hell knows why this happens as it does so with no 
+            explanation whatsoever.
+            When it happens, simple set the exception settings to not stop
+            on the exception when thrown by comctl32.dll
+        */
+
         LONG_PTR rc = SendMessage(hwnd,PSM_SETCURSEL,(LPARAM)k,(LPARAM)0);
 
         HWND hwndPage = (HWND)SendMessage(hwnd,PSM_INDEXTOHWND,(LPARAM)k,0L);
